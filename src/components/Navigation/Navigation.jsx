@@ -13,31 +13,31 @@ function Navigation() {
         style={{ maxHeight: '100px' }}
         navbarScroll
       >
-        <Nav.Link href="#action1">Customer Data</Nav.Link>
+        <Nav.Link to="/">Customer Data</Nav.Link>
         <NavDropdown title="Product Keys" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2021</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2021</NavDropdown.Item>
         </NavDropdown>
 
         <NavDropdown title="Unique Codes" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2021</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2021</NavDropdown.Item>
         </NavDropdown>
      
 
         <NavDropdown title="Upload Product Keys" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2021</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="/">PP 2021</NavDropdown.Item>
         </NavDropdown>
                            
 
         <NavDropdown title="Upload Unique Codes" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2016</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">PP 2021</NavDropdown.Item>
+          <NavDropdown.Item to="#action3">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="#action4">PP 2016</NavDropdown.Item>
+          <NavDropdown.Item to="#action4">PP 2021</NavDropdown.Item>
         </NavDropdown>
                            
       </Nav>

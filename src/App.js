@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.scss";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import Admin from "./components/Admin/Admin";
-import { AuthContextProvider } from "./context/AuthContext";
+import { AuthContextProvider } from "./context/Context";
 import ProtectedRoute from "./components/ProctedRoute";
 function App() {
   return (

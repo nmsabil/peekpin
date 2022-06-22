@@ -2,7 +2,7 @@ import Alert from "react-bootstrap/Alert";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { UserAuth } from "../../context/AuthContext";
+import { UserAuth } from "../../context/Context";
 
 function AdminLogin() {
   const [email, setEmail] = useState("");

@@ -20,6 +20,7 @@ function Table(props) {
       console.log(element);
     });
   }
+
   const columns = [
     {
       name: "Name",

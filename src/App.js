@@ -14,7 +14,57 @@ import Table from "./components/Table/Table";
 
 function App() {
   const [customerData, setCustomerData] = useState([]);
-  const [pp2016, setPp2016] = useState([]);
+  const [officeProPlusSixteen, setOfficeProPlusSixteen] = useState([]);
+  const [officeProPlusSixteenColumn, setofficeProPlusSixteenColumn] = useState([
+    {
+      name: "Product Key",
+      selector: (row) => row.ProductKey,
+      sortable: true,
+    },
+    {
+      name: "Upload Date",
+      selector: (row) => row.UploadDate.nanoseconds,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.status,
+      sortable: true,
+    },
+  ]);
+  const [customerDataColumn, setCustomerDataColumn] = useState([
+    {
+      name: "Name",
+      selector: (row) => row.Name,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.Email,
+      sortable: true,
+    },
+
+    {
+      name: "Year",
+      selector: (row) => row.Year,
+      sortable: true,
+    },
+    {
+      name: "Product Key",
+      selector: (row) => row.ProductKey,
+      sortable: true,
+    },
+    {
+      name: "Unique Code",
+      selector: (row) => row.UniqueCode,
+      sortable: true,
+    },
+    {
+      name: "Time",
+      selector: (row) => row.Time.nanoseconds,
+      sortable: true,
+    },
+  ]);
 
   useEffect(() => {
     const q = query(collection(db, "Customer data"));
@@ -29,13 +79,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const q = query(collection(db, "Product Key 2016"));
+    const q = query(collection(db, "Product key 2016"));
     const unsub = onSnapshot(q, (querySnapshot) => {
       let pp2016A = [];
       querySnapshot.forEach((doc) => {
         pp2016A.push({ ...doc.data(), id: doc.id });
       });
-      setPp2016(pp2016);
+
+      setOfficeProPlusSixteen(pp2016A);
     });
     return () => unsub();
   }, []);
@@ -56,7 +107,10 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Table data={customerData} />
+                        <Table
+                          data={customerData}
+                          columns={customerDataColumn}
+                        />
                       </ProtectedRoute>
                     }
                   />
@@ -66,7 +120,10 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Table data={pp2016} />
+                        <Table
+                          data={officeProPlusSixteen}
+                          columns={officeProPlusSixteenColumn}
+                        />
                       </ProtectedRoute>
                     }
                   />

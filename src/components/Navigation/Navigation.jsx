@@ -6,7 +6,9 @@ function Navigation() {
   return (
     <Navbar bg='light' expand='lg'>
       <Container fluid>
-        <Navbar.Brand href='#'>DisplayPin</Navbar.Brand>
+        <Navbar.Brand as={Link} to='/admin'>
+          DisplayPin
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls='navbarScroll' />
         <Navbar.Collapse id='navbarScroll'>
           <Nav
@@ -14,7 +16,9 @@ function Navigation() {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link to='/'>Customer Data</Nav.Link>
+            <Nav.Link as={Link} to='/admin'>
+              Customer Data
+            </Nav.Link>
             <NavDropdown title='Product Keys' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/keys2016'>

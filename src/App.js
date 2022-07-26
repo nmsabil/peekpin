@@ -32,6 +32,7 @@ function App() {
       sortable: true,
     },
   ]);
+
   const [customerDataColumn, setCustomerDataColumn] = useState([
     {
       name: "Name",
@@ -84,8 +85,16 @@ function App() {
       let pp2016A = [];
       querySnapshot.forEach((doc) => {
         pp2016A.push({ ...doc.data(), id: doc.id });
+        pp2016A.forEach((e) => {
+          Object.keys(e).forEach((key) => {
+            if (key === "status" && e.status === true) {
+              e.status = "Active";
+            } else if (key === "status" && e.status === false) {
+              e.status = "Inactive";
+            }
+          });
+        });
       });
-
       setOfficeProPlusSixteen(pp2016A);
     });
     return () => unsub();

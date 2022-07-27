@@ -38,7 +38,11 @@ function Navigation() {
             </NavDropdown>
 
             <NavDropdown title='Unique Codes' id='navbarScrollingDropdown'>
-              <NavDropdown.Item to='/uniquecode2016'>PP 2016</NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/unique-code-2016'>
+                  PP 2016
+                </Nav.Link>
+              </NavDropdown.Item>
               <NavDropdown.Item to='/uniquecode2016'>PP 2019</NavDropdown.Item>
               <NavDropdown.Item to='/uniquecode2021'>PP 2021</NavDropdown.Item>
             </NavDropdown>

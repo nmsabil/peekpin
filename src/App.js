@@ -5,101 +5,12 @@ import "./App.scss";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import { AuthContextProvider } from "./context/Context";
 import ProtectedRoute from "./components/ProctedRoute";
-import { db } from "./firebase";
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { useEffect } from "react";
-import { useState } from "react";
 import Navigation from "./components/Navigation/Navigation";
-import Table from "./components/Table/Table";
+import CustomerDataTable from "./RetriveData/CustomerDataTable";
+import OPP16PK from "./RetriveData/OfficePP2016/OPP16PK";
+import OPP16UC from "./RetriveData/OfficePP2016/OPP16UC";
 
 function App() {
-  const [customerData, setCustomerData] = useState([]);
-  const [officeProPlusSixteen, setOfficeProPlusSixteen] = useState([]);
-  const [officeProPlusSixteenColumn, setofficeProPlusSixteenColumn] = useState([
-    {
-      name: "Product Key",
-      selector: (row) => row.ProductKey,
-      sortable: true,
-    },
-    {
-      name: "Upload Date",
-      selector: (row) => row.UploadDate.nanoseconds,
-      sortable: true,
-    },
-    {
-      name: "Status",
-      selector: (row) => row.status,
-      sortable: true,
-    },
-  ]);
-
-  const [customerDataColumn, setCustomerDataColumn] = useState([
-    {
-      name: "Name",
-      selector: (row) => row.Name,
-      sortable: true,
-    },
-    {
-      name: "Email",
-      selector: (row) => row.Email,
-      sortable: true,
-    },
-
-    {
-      name: "Year",
-      selector: (row) => row.Year,
-      sortable: true,
-    },
-    {
-      name: "Product Key",
-      selector: (row) => row.ProductKey,
-      sortable: true,
-    },
-    {
-      name: "Unique Code",
-      selector: (row) => row.UniqueCode,
-      sortable: true,
-    },
-    {
-      name: "Time",
-      selector: (row) => row.Time.nanoseconds,
-      sortable: true,
-    },
-  ]);
-
-  useEffect(() => {
-    const q = query(collection(db, "Customer data"));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let customerDataA = [];
-      querySnapshot.forEach((doc) => {
-        customerDataA.push({ ...doc.data(), id: doc.id });
-      });
-      setCustomerData(customerDataA);
-    });
-    return () => unsub();
-  }, []);
-
-  useEffect(() => {
-    const q = query(collection(db, "Product key 2016"));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let pp2016A = [];
-      querySnapshot.forEach((doc) => {
-        pp2016A.push({ ...doc.data(), id: doc.id });
-        pp2016A.forEach((e) => {
-          Object.keys(e).forEach((key) => {
-            if (key === "status" && e.status === true) {
-              e.status = "Active";
-            } else if (key === "status" && e.status === false) {
-              e.status = "Inactive";
-            }
-          });
-        });
-      });
-      setOfficeProPlusSixteen(pp2016A);
-    });
-    return () => unsub();
-  }, []);
-
   return (
     <div className='App'>
       <Container>
@@ -116,10 +27,7 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Table
-                          data={customerData}
-                          columns={customerDataColumn}
-                        />
+                        <CustomerDataTable />
                       </ProtectedRoute>
                     }
                   />
@@ -129,10 +37,17 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Table
-                          data={officeProPlusSixteen}
-                          columns={officeProPlusSixteenColumn}
-                        />
+                        <OPP16PK />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path='/admin/unique-code-2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <OPP16UC />
                       </ProtectedRoute>
                     }
                   />

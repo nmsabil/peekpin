@@ -13,7 +13,7 @@ function OPP16PK() {
     },
     {
       name: "Upload Date",
-      selector: (row) => row.UploadDate.nanoseconds,
+      selector: (row) => row.UploadDate.stringTime,
       sortable: true,
     },
     {
@@ -35,6 +35,12 @@ function OPP16PK() {
               e.status = "Active";
             } else if (key === "status" && e.status === false) {
               e.status = "Inactive";
+            } else if (key === "UploadDate") {
+              let time = new Date(
+                e.UploadDate.seconds * 1000 + e.UploadDate.nanoseconds / 1000000
+              );
+              e.UploadDate.stringTime =
+                time.toDateString() + " " + time.toLocaleTimeString();
             }
           });
         });

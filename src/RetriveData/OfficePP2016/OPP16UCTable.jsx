@@ -1,9 +1,27 @@
 import { db } from "../../firebase";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import Table from "../../components/Table/Table";
 
-function OPP2016UCData() {
+function OPP16UC() {
   const [OPP16UC, setOPP16UC] = useState([]);
+  const OPP16UCColumn = [
+    {
+      name: "Unique code",
+      selector: (row) => row.UniqueCode,
+      sortable: true,
+    },
+    {
+      name: "Upload Date",
+      selector: (row) => row.UploadDate.stringTime,
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => row.Status,
+      sortable: true,
+    },
+  ];
 
   useEffect(() => {
     const q = query(collection(db, "Unique code 2016"));
@@ -31,8 +49,7 @@ function OPP2016UCData() {
     });
     return () => unsub();
   }, []);
-
-  return this.props.OPP16UC;
+  return <Table data={OPP16UC} columns={OPP16UCColumn} />;
 }
 
-export default OPP2016UCData;
+export default OPP16UC;

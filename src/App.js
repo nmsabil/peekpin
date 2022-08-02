@@ -7,8 +7,8 @@ import { AuthContextProvider } from "./context/Context";
 import ProtectedRoute from "./components/ProctedRoute";
 import Navigation from "./components/Navigation/Navigation";
 import CustomerDataTable from "./RetriveData/CustomerDataTable";
-import OPP16PK from "./RetriveData/OfficePP2016/OPP16PK";
-import OPP16UC from "./RetriveData/OfficePP2016/OPP16UC";
+import OPP16PKTable from "./RetriveData/OfficePP2016/OPP16PKTable";
+import OPP16UCTable from "./RetriveData/OfficePP2016/OPP16UCTable";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <OPP16PK />
+                        <OPP16PKTable />
                       </ProtectedRoute>
                     }
                   />
@@ -47,7 +47,7 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <OPP16UC />
+                        <OPP16UCTable />
                       </ProtectedRoute>
                     }
                   />

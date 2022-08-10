@@ -4,14 +4,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const navigate = useNavigate();
   const [OPP16UC, setOPP16UC] = useState([]);
   const [OPP16PK, setOPP16PK] = useState([]);
   const [message, setMessage] = useState("");
 
   let foundUniqueCode = false;
   let activeProductKey = "";
+  let authorized = false;
 
   let handleSubmit = (e) => {
     e.preventDefault();
@@ -29,9 +32,14 @@ function Home() {
         activeProductKey = objectpk.ProductKey;
       }
     });
-    // display active product key
+    // display active product key on another page
     if (foundUniqueCode && activeProductKey.length > 0) {
-      setMessage(`Your product key is ${activeProductKey}`);
+      authorized = true;
+      navigate("/authorized_unique_code_pp16", {
+        state: { productKey: activeProductKey, auth: authorized },
+      });
+    } else {
+      console.log("first");
     }
   };
 

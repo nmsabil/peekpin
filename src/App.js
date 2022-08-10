@@ -5,10 +5,12 @@ import "./App.scss";
 import AdminLogin from "./components/AdminLogin/AdminLogin";
 import { AuthContextProvider } from "./context/Context";
 import ProtectedRoute from "./components/ProctedRoute";
+import ProtectedRouteAuthorized from "./components/ProtectedRouteAuthorized";
 import Navigation from "./components/Navigation/Navigation";
 import CustomerDataTable from "./RetriveData/CustomerDataTable";
 import OPP16PKTable from "./RetriveData/OfficePP2016/OPP16PKTable";
 import OPP16UCTable from "./RetriveData/OfficePP2016/OPP16UCTable";
+import OOPP2016Template from "./components/WebTemplate/OPP2016Template";
 
 function App() {
   return (
@@ -69,6 +71,15 @@ function App() {
                         <Navigation />
                         <h1>PP 2021</h1>
                       </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path='/authorized_unique_code_pp16'
+                    element={
+                      <ProtectedRouteAuthorized>
+                        <OOPP2016Template />
+                      </ProtectedRouteAuthorized>
                     }
                   />
                 </Routes>

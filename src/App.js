@@ -11,6 +11,7 @@ import CustomerDataTable from "./RetriveData/CustomerDataTable";
 import OPP16PKTable from "./RetriveData/OfficePP2016/OPP16PKTable";
 import OPP16UCTable from "./RetriveData/OfficePP2016/OPP16UCTable";
 import OOPP2016Template from "./components/WebTemplate/OPP2016Template";
+import Upload from "./components/Upload/Upload";
 
 function App() {
   return (
@@ -50,6 +51,16 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <OPP16UCTable />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path='/admin/upload-product-key-2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload PP 2016' />
                       </ProtectedRoute>
                     }
                   />

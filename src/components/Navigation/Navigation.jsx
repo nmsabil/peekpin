@@ -51,7 +51,11 @@ function Navigation() {
               title='Upload Product Keys'
               id='navbarScrollingDropdown'
             >
-              <NavDropdown.Item to='/'>PP 2016</NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/upload-product-key-2016'>
+                  PP 2016
+                </Nav.Link>
+              </NavDropdown.Item>
               <NavDropdown.Item to='/'>PP 2016</NavDropdown.Item>
               <NavDropdown.Item to='/'>PP 2021</NavDropdown.Item>
             </NavDropdown>

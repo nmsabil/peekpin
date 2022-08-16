@@ -2,6 +2,7 @@ import { db } from "../../firebase";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
+import AddPK from "./AddPK";
 
 function OPP16PK() {
   const [OPP16PK, setOPP16PK] = useState([]);
@@ -49,7 +50,12 @@ function OPP16PK() {
     });
     return () => unsub();
   }, []);
-  return <Table data={OPP16PK} columns={OPP16PKColumn} />;
+  return (
+    <div className='pp-2016'>
+      <AddPK />
+      <Table data={OPP16PK} columns={OPP16PKColumn} />
+    </div>
+  );
 }
 
 export default OPP16PK;

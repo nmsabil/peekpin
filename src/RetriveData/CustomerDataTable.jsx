@@ -35,7 +35,7 @@ function CustomerDataTable() {
     },
     {
       name: "Time",
-      selector: (row) => row.Time.nanoseconds,
+      selector: (row) => row.Time.stringTime,
       sortable: true,
     },
   ];
@@ -46,6 +46,17 @@ function CustomerDataTable() {
       let customerDataA = [];
       querySnapshot.forEach((doc) => {
         customerDataA.push({ ...doc.data(), id: doc.id });
+        customerDataA.forEach((e) => {
+          Object.keys(e).forEach((key) => {
+            if (key === "Time") {
+              let time = new Date(
+                e.Time.seconds * 1000 + e.Time.nanoseconds / 1000000
+              );
+              e.Time.stringTime =
+                time.toDateString() + " " + time.toLocaleTimeString();
+            }
+          });
+        });
       });
       setCustomerData(customerDataA);
     });

@@ -66,6 +66,16 @@ function App() {
                   />
                   <Route
                     exact
+                    path='/admin/upload-unique-code-2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload Unique code 2016' />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
                     path='/admin/keys2019'
                     element={
                       <ProtectedRoute>

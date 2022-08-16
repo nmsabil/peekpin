@@ -18,7 +18,7 @@ function OPP16PK() {
     },
     {
       name: "Status",
-      selector: (row) => row.status,
+      selector: (row) => row.Status,
       sortable: true,
     },
   ];
@@ -31,10 +31,10 @@ function OPP16PK() {
         pp2016PK.push({ ...doc.data(), id: doc.id });
         pp2016PK.forEach((e) => {
           Object.keys(e).forEach((key) => {
-            if (key === "status" && e.status === true) {
-              e.status = "Active";
-            } else if (key === "status" && e.status === false) {
-              e.status = "Inactive";
+            if (key === "Status" && e.Status === true) {
+              e.Status = "Active";
+            } else if (key === "Status" && e.Status === false) {
+              e.Status = "Inactive";
             } else if (key === "UploadDate") {
               let time = new Date(
                 e.UploadDate.seconds * 1000 + e.UploadDate.nanoseconds / 1000000

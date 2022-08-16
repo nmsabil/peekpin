@@ -26,7 +26,6 @@ function Table(props) {
 
   const columns = props.columns;
   const data = dataObject;
-
   return (
     <div className='mt-5'>
       <DataTable

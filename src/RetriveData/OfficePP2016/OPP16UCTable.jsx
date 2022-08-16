@@ -5,7 +5,8 @@ import Table from "../../components/Table/Table";
 
 function OPP16UC() {
   const [OPP16UC, setOPP16UC] = useState([]);
-  const OPP16UCColumn = [
+
+  var OPP16UCColumn = [
     {
       name: "Unique code",
       selector: (row) => row.UniqueCode,

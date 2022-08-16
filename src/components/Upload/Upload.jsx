@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { db } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 function Upload(props) {
-  //   const [upload, setUpload] = { productKey: "", uploadDate: "", status: true };
   const [file, setFile] = useState();
   const [array, setArray] = useState([]);
+  const [uploaded, setUploaded] = useState(false);
   const fileReader = new FileReader();
+
+  // read file as text and pass to a funtion that converts to an array
   const formHandler = (e) => {
     e.preventDefault();
-
     if (file) {
       fileReader.onload = function (event) {
         const text = event.target.result;
@@ -19,27 +22,52 @@ function Upload(props) {
       fileReader.readAsText(file);
     }
   };
+  // on file change update file state.
   const handleOnChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const csvFileToArray = (string) => {
-    const csvHeader = string.slice(0, string.indexOf("\n")).split(",");
-    const csvRows = string.slice(string.indexOf("\n") + 1).split("\n");
+  // convert string to array
+  const csvFileToArray = (fileString) => {
+    const fileArray = fileString.split("\n");
 
-    const array = csvRows.map((i) => {
-      const values = i.split(",");
-      const obj = csvHeader.reduce((object, header, index) => {
-        object[header] = values[index];
-        return object;
-      }, {});
-      return obj;
-    });
-
-    setArray(array);
+    setArray(fileArray);
   };
 
-  const headerKeys = Object.keys(Object.assign({}, ...array));
+  const addtoFirebase = async () => {
+    if (window.location.pathname === "/admin/upload-product-key-2016") {
+      for (var key of array) {
+        console.log(key);
+        var docRef = await addDoc(collection(db, "Product key 2016"), {
+          ProductKey: key,
+          UploadDate: new Date(),
+          Status: true,
+        });
+        setUploaded(true);
+        setTimeout(() => {
+          setUploaded(false);
+        }, 1000);
+      }
+    } else if (window.location.pathname === "/admin/upload-unique-code-2016") {
+      for (var key of array) {
+        console.log(key);
+        var docRef = await addDoc(collection(db, "Unique code 2016"), {
+          UniqueCode: key,
+          UploadDate: new Date(),
+          Status: true,
+        });
+        setUploaded(true);
+        setTimeout(() => {
+          setUploaded(false);
+        }, 1000);
+      }
+      console.log("Document written with ID: ", docRef.id);
+    } else {
+    }
+  };
+  useEffect(() => {
+    addtoFirebase();
+  }, [array]);
 
   return (
     <div className='upload'>
@@ -61,25 +89,7 @@ function Upload(props) {
       </Form>
       <br />
 
-      <table>
-        <thead>
-          <tr key={"header"}>
-            {headerKeys.map((key) => (
-              <th>{key}</th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody>
-          {array.map((item) => (
-            <tr key={item.id}>
-              {Object.values(item).map((val) => (
-                <td>{val}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1>{uploaded ? "Uploaded" : ""}</h1>
     </div>
   );
 }

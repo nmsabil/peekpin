@@ -1,6 +1,7 @@
 import React from "react";
 import DataTable from "react-data-table-component";
 import Loader from "../Loader.jxs/Loader";
+import DataTableExtensions from "react-data-table-component-extensions";
 
 function Table(props) {
   const [pending, setPending] = React.useState(true);
@@ -12,7 +13,7 @@ function Table(props) {
       const timeout = setTimeout(() => {
         setRows(data);
         setPending(false);
-      }, 2000);
+      }, 700);
       return () => clearTimeout(timeout);
     },
     [],
@@ -26,16 +27,40 @@ function Table(props) {
 
   const columns = props.columns;
   const data = dataObject;
+
+  const conditionalRowStyles = [
+    {
+      when: (row) => row.Status === "Active",
+      style: {
+        backgroundColor: "rgba(161, 238, 198, 0.1)",
+      },
+    },
+    {
+      when: (row) => row.Status === "Inactive",
+      style: {
+        backgroundColor: "rgba(241, 91, 94, 0.05)",
+      },
+    },
+  ];
   return (
     <div className='mt-3'>
-      <DataTable
+      <DataTableExtensions
         columns={columns}
         data={data}
-        pagination
-        selectableRows
-        progressPending={pending}
-        progressComponent={<Loader />}
-      />
+        print={false}
+        export={false}
+        filterPlaceholder='Search table'
+      >
+        <DataTable
+          columns={columns}
+          data={data}
+          pagination
+          selectableRows
+          progressPending={pending}
+          progressComponent={<Loader />}
+          conditionalRowStyles={conditionalRowStyles}
+        />
+      </DataTableExtensions>
     </div>
   );
 }

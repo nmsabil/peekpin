@@ -3,24 +3,36 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { db } from "../../firebase";
 
-function AddPK() {
-  const [productKey, setProductKey] = useState("");
+function AddPK(props) {
+  const [code, setCode] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const docRef = await addDoc(collection(db, "Product key 2016"), {
-      ProductKey: productKey,
-      UploadDate: new Date(),
-      Status: true,
-    });
+    if (window.location.pathname === "/admin/keys2016") {
+      await addDoc(collection(db, "Product key 2016"), {
+        ProductKey: code,
+        UploadDate: new Date(),
+        Status: true,
+      });
+      setCode("");
+    } else if (window.location.pathname === "/admin/unique-code-2016") {
+      await addDoc(collection(db, "Unique code 2016"), {
+        UniqueCode: code,
+        UploadDate: new Date(),
+        Status: true,
+      });
+      setCode("");
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit} className='form mt-3 d-flex'>
       <Form.Group controlId='password'>
         <Form.Control
-          onChange={(e) => setProductKey(e.target.value)}
+          onChange={(e) => setCode(e.target.value)}
           type='text'
-          placeholder='New Product Key'
+          value={code}
+          placeholder={props.name}
         />
       </Form.Group>
       <button type='submit' className='btn btn-primary'>

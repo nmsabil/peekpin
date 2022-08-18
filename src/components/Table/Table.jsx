@@ -28,28 +28,13 @@ function Table(props) {
   const columns = props.columns;
   const data = dataObject;
 
-  const conditionalRowStyles = [
-    {
-      when: (row) => row.Status === "Active",
-      style: {
-        backgroundColor: "rgba(161, 238, 198, 0.1)",
-      },
-    },
-    {
-      when: (row) => row.Status === "Inactive",
-      style: {
-        backgroundColor: "rgba(241, 91, 94, 0.05)",
-      },
-    },
-  ];
   return (
-    <div className='mt-3'>
+    <div className=''>
       <DataTableExtensions
         columns={columns}
         data={data}
         print={false}
         export={false}
-        filterPlaceholder='Search table'
       >
         <DataTable
           columns={columns}
@@ -58,7 +43,6 @@ function Table(props) {
           selectableRows
           progressPending={pending}
           progressComponent={<Loader />}
-          conditionalRowStyles={conditionalRowStyles}
         />
       </DataTableExtensions>
     </div>

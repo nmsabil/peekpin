@@ -35,6 +35,20 @@ function OPP16PK() {
       name: "Status",
       selector: (row) => row.Status,
       sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.Status === "Active",
+          style: {
+            color: "green",
+          },
+        },
+        {
+          when: (row) => row.Status === "Inactive",
+          style: {
+            color: "red",
+          },
+        },
+      ],
     },
 
     {
@@ -118,7 +132,10 @@ function OPP16PK() {
   }, []);
   return (
     <div className='pp-2016'>
-      <AddPK name={"Product Key"} />
+      <div className='title-add d-flex flex-column mt-5'>
+        <h1 style={{ fontSize: "1.5rem" }}>Office PP 2016 product keys</h1>
+        <AddPK name={"Product Key"} />
+      </div>
       <Table data={OPP16PK} columns={OPP16PKColumn} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

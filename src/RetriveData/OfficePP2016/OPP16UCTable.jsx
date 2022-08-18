@@ -36,6 +36,20 @@ function OPP16UC() {
       name: "Status",
       selector: (row) => row.Status,
       sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.Status === "Active",
+          style: {
+            color: "green",
+          },
+        },
+        {
+          when: (row) => row.Status === "Inactive",
+          style: {
+            color: "red",
+          },
+        },
+      ],
     },
     {
       name: "Actions",
@@ -120,7 +134,10 @@ function OPP16UC() {
   }, []);
   return (
     <div>
-      <AddPK name={"Unique Code"} />
+      <div className='title-add d-flex flex-column mt-5'>
+        <h1 style={{ fontSize: "1.5rem" }}>Office PP 2016 unique codes</h1>
+        <AddPK name={"Unique Code"} />
+      </div>
       <Table data={OPP16UC} columns={OPP16UCColumn} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

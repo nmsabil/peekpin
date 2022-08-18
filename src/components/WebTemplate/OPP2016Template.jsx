@@ -10,7 +10,6 @@ function OPP2016Template() {
       <img src={logo} alt='Displaypin logo' className='logo mb-5' />
       <div className='template'>
         <h1 className='product-key'>Product key: {productKey}</h1>
-        <h1 className='product-key'>Product key: {auth.toString()}</h1>
         <ol>
           <li>Go to setup.office.com</li>
           <li>Create/login to your Microsoft Account</li>

@@ -58,11 +58,19 @@ function CustomerDataTable() {
           });
         });
       });
+      console.log(customerDataA);
       setCustomerData(customerDataA);
     });
     return () => unsub();
   }, []);
-  return <Table data={customerData} columns={customerDataColumn} />;
+  return (
+    <>
+      <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>
+        Customers data
+      </h1>
+      <Table data={customerData} columns={customerDataColumn} />
+    </>
+  );
 }
 
 export default CustomerDataTable;

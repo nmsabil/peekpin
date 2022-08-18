@@ -26,7 +26,7 @@ function AddPK(props) {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className='form mt-3 d-flex'>
+    <Form onSubmit={handleSubmit} className='form d-flex'>
       <Form.Group controlId='password'>
         <Form.Control
           onChange={(e) => setCode(e.target.value)}

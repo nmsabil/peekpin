@@ -19,3 +19,11 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 }
+.table-main {
+  position: relative;
+  .delete {
+    position: absolute;
+    right: 0;
+    right: 246px;
+  }
+}

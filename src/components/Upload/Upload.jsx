@@ -3,8 +3,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function Upload(props) {
+  const navigate = useNavigate();
   const [file, setFile] = useState();
   const [array, setArray] = useState([]);
   const [uploaded, setUploaded] = useState(false);
@@ -37,8 +39,7 @@ function Upload(props) {
   const addtoFirebase = async () => {
     if (window.location.pathname === "/admin/upload-product-key-2016") {
       for (var key of array) {
-        console.log(key);
-        var docRef = await addDoc(collection(db, "Product key 2016"), {
+        await addDoc(collection(db, "Product key 2016"), {
           ProductKey: key,
           UploadDate: new Date(),
           Status: true,
@@ -47,11 +48,11 @@ function Upload(props) {
         setTimeout(() => {
           setUploaded(false);
         }, 1000);
+        navigate("/admin/keys2016");
       }
     } else if (window.location.pathname === "/admin/upload-unique-code-2016") {
       for (var key of array) {
-        console.log(key);
-        var docRef = await addDoc(collection(db, "Unique code 2016"), {
+        await addDoc(collection(db, "Unique code 2016"), {
           UniqueCode: key,
           UploadDate: new Date(),
           Status: true,
@@ -60,8 +61,8 @@ function Upload(props) {
         setTimeout(() => {
           setUploaded(false);
         }, 1000);
+        navigate("/admin/unique-code-2016");
       }
-      console.log("Document written with ID: ", docRef.id);
     } else {
     }
   };

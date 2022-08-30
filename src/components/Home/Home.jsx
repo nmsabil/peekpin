@@ -26,6 +26,7 @@ function Home() {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
+  const [customerData, setCustomerData] = useState([]);
 
   const [foundUniqueCode, setFoundUniqueCode] = useState(false);
 
@@ -33,9 +34,24 @@ function Home() {
     e.preventDefault();
     // loop the unique code array to find unique code typed in the input
     OPP16UC.forEach((objectuc) => {
-      if (objectuc.UniqueCode === e.target[1].value) {
+      if (
+        objectuc.Status === "Inactive" &&
+        objectuc.UniqueCode === e.target[1].value
+      ) {
+        setMessage("");
+        customerData.forEach((each) => {
+          if (each.UniqueCode === e.target[1].value) {
+            navigate("/authorized_unique_code_pp16", {
+              state: { productKey: each.ProductKey, auth: true },
+            });
+          }
+        });
+      } else if (objectuc.UniqueCode === e.target[1].value) {
         setFoundUniqueCode(true);
         setActiveUniqueCodeID(objectuc.id);
+        setMessage("");
+      } else {
+        setMessage("Unique code is invalid.");
       }
     });
     // loop the product keys and find one that's active.
@@ -46,6 +62,29 @@ function Home() {
       }
     });
   };
+
+  useEffect(() => {
+    const q = query(collection(db, "Customer data"));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      let customerDataA = [];
+      querySnapshot.forEach((doc) => {
+        customerDataA.push({ ...doc.data(), id: doc.id });
+        customerDataA.forEach((e) => {
+          Object.keys(e).forEach((key) => {
+            if (key === "Time") {
+              let time = new Date(
+                e.Time.seconds * 1000 + e.Time.nanoseconds / 1000000
+              );
+              e.Time.stringTime =
+                time.toDateString() + " " + time.toLocaleTimeString();
+            }
+          });
+        });
+      });
+      setCustomerData(customerDataA);
+    });
+    return () => unsub();
+  }, []);
 
   useEffect(() => {
     // display active product key on another page

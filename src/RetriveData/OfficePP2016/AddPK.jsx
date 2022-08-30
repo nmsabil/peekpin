@@ -33,6 +33,7 @@ function AddPK(props) {
           type='text'
           value={code}
           placeholder={props.name}
+          required
         />
       </Form.Group>
       <button type='submit' className='btn btn-primary'>

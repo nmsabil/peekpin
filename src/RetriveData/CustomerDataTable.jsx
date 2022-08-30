@@ -58,7 +58,6 @@ function CustomerDataTable() {
           });
         });
       });
-      console.log(customerDataA);
       setCustomerData(customerDataA);
     });
     return () => unsub();

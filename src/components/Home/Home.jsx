@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -13,6 +13,7 @@ import {
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
+import { send, init } from "emailjs-com";
 
 function Home() {
   const navigate = useNavigate();
@@ -30,7 +31,31 @@ function Home() {
 
   const [foundUniqueCode, setFoundUniqueCode] = useState(false);
 
+  const form = useRef();
+
+  const serviceId = "service_b7r1urq";
+  const templateId = "template_sk86vkb";
+  const userID = "hBnOsTmRnsM9UsMmi";
+
+  const sendEmail = () => {
+    console.log("first");
+    init(userID);
+    const toSend = {
+      to_name: enteredName,
+      to_email: enteredEmail,
+      uc: enteredUniqueCode,
+    };
+    send(serviceId, templateId, toSend)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   let handleSubmit = (e) => {
+    sendEmail();
     e.preventDefault();
     // loop the unique code array to find unique code typed in the input
     OPP16UC.forEach((objectuc) => {
@@ -173,12 +198,13 @@ function Home() {
   return (
     <div className='home d-flex justify-content-center align-items-center flex-direction-column flex-column'>
       <img src={logo} alt='Displaypin logo' className='logo mb-5' />
-      <Form onSubmit={handleSubmit} className='form'>
+      <Form onSubmit={handleSubmit} ref={form} className='form'>
         {message ? <Alert variant='danger'>{message}</Alert> : ""}
 
         <Form.Group className='mb-3' controlId='name'>
           <Form.Label>Name</Form.Label>
           <Form.Control
+            name='from_name'
             required
             type='text'
             value={enteredName}
@@ -189,6 +215,7 @@ function Home() {
         <Form.Group className='mb-3' controlId='uniqueCode'>
           <Form.Label>Unique code</Form.Label>
           <Form.Control
+            name='uc'
             value={enteredUniqueCode}
             onChange={(e) => setEnteredUniqueCode(e.target.value)}
             required
@@ -199,6 +226,7 @@ function Home() {
         <Form.Group className='mb-3' controlId='email'>
           <Form.Label>Email</Form.Label>
           <Form.Control
+            name='to_name'
             required
             type='email'
             value={enteredEmail}

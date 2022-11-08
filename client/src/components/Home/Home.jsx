@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
+import axios from "axios";
 import Button from "react-bootstrap/Button";
 import {
   addDoc,
@@ -23,7 +24,6 @@ function Home() {
   const [activeProductKey, setActiveProductKey] = useState("");
   const [activeProductKeyID, setActiveProductKeyID] = useState("");
   const [activeUniqueCodeID, setActiveUniqueCodeID] = useState("");
-  const [auth, setAuth] = useState(false);
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
@@ -33,30 +33,27 @@ function Home() {
 
   const form = useRef();
 
-  const serviceId = "service_b7r1urq";
-  const templateId = "template_sk86vkb";
-  const userID = "hBnOsTmRnsM9UsMmi";
-
-  const sendEmail = () => {
-    console.log("first");
-    init(userID);
-    const toSend = {
-      to_name: enteredName,
-      to_email: enteredEmail,
-      uc: enteredUniqueCode,
-      from_name: "SoftwarePin",
+  const sendEmail = async (
+    enteredEmail,
+    enteredName,
+    enteredUniqueCode,
+    activeProductKey
+  ) => {
+    const data = {
+      enteredEmail,
+      enteredName,
+      enteredUniqueCode,
+      activeProductKey,
     };
-    send(serviceId, templateId, toSend)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    const response = await axios.post(
+      "http://localhost:5000/api/sendemail",
+      data
+    );
+    console.log(response.data);
   };
 
   let handleSubmit = (e) => {
-    sendEmail();
     e.preventDefault();
     // loop the unique code array to find unique code typed in the input
     OPP16UC.forEach((objectuc) => {
@@ -67,6 +64,12 @@ function Home() {
         setMessage("");
         customerData.forEach((each) => {
           if (each.UniqueCode === e.target[1].value) {
+            sendEmail(
+              enteredEmail,
+              enteredName,
+              enteredUniqueCode,
+              each.ProductKey
+            );
             navigate("/authorized_unique_code_pp16", {
               state: { productKey: each.ProductKey, auth: true },
             });

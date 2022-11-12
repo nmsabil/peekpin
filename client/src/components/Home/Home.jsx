@@ -14,7 +14,6 @@ import {
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
-import { send, init } from "emailjs-com";
 
 function Home() {
   const navigate = useNavigate();
@@ -28,6 +27,9 @@ function Home() {
   const [enteredName, setEnteredName] = useState("");
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
   const [customerData, setCustomerData] = useState([]);
+  const [whichLicense, setWhichLicense] = useState(
+    "Office Professional Plus 2016"
+  );
 
   const [foundUniqueCode, setFoundUniqueCode] = useState(false);
 
@@ -37,24 +39,23 @@ function Home() {
     enteredEmail,
     enteredName,
     enteredUniqueCode,
-    activeProductKey
+    activeProductKey,
+    whichLicenseState
   ) => {
     const data = {
       enteredEmail,
       enteredName,
       enteredUniqueCode,
       activeProductKey,
+      whichLicenseState,
     };
 
-    const response = await axios.post(
-      "http://localhost:5000/api/sendemail",
-      data
-    );
-    console.log(response.data);
+    await axios.post("http://localhost:5000/api/sendemail", data);
   };
 
   let handleSubmit = (e) => {
     e.preventDefault();
+
     // loop the unique code array to find unique code typed in the input
     OPP16UC.forEach((objectuc) => {
       if (
@@ -62,23 +63,33 @@ function Home() {
         objectuc.UniqueCode === e.target[1].value
       ) {
         setMessage("");
+
         customerData.forEach((each) => {
           if (each.UniqueCode === e.target[1].value) {
+            navigate("/authorized_unique_code_pp16", {
+              state: { productKey: each.ProductKey, auth: true },
+            });
             sendEmail(
               enteredEmail,
               enteredName,
               enteredUniqueCode,
-              each.ProductKey
+              each.ProductKey,
+              whichLicense
             );
-            navigate("/authorized_unique_code_pp16", {
-              state: { productKey: each.ProductKey, auth: true },
-            });
           }
         });
       } else if (objectuc.UniqueCode === e.target[1].value) {
         setFoundUniqueCode(true);
         setActiveUniqueCodeID(objectuc.id);
         setMessage("");
+        sendEmail(
+          enteredEmail,
+          enteredName,
+          enteredUniqueCode,
+          activeProductKey,
+          whichLicense
+        );
+        // todo set product key and which license for someone using the unique code for the first time.
       } else {
         setMessage("Unique code is invalid.");
       }

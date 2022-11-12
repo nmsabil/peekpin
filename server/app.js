@@ -17,15 +17,21 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/sendemail", async (req, res) => {
-  const { enteredEmail, enteredName, enteredUniqueCode, activeProductKey } =
-    req.body;
-
+  const {
+    enteredEmail,
+    enteredName,
+    enteredUniqueCode,
+    activeProductKey,
+    whichLicenseState,
+  } = req.body;
+  console.log(req.body);
   try {
     const send_to = enteredEmail;
     const sent_from = process.env.EMAIL_USER;
     const reply_to = enteredEmail;
-    const subject = `Hello ${enteredName}, thank You for placing an order with us.`;
+    const subject = `SoftwarePin - ${whichLicenseState}`;
     const message = `
+        <p>Hello ${enteredName}, thank You for placing an order with us.</p>
         <h3>Your product key is: ${activeProductKey}</h3>
         <p>Your unique code is: ${enteredUniqueCode}</p>
         <p>Regards...</p>

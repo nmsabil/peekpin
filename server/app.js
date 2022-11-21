@@ -24,7 +24,6 @@ app.post("/api/sendemail", async (req, res) => {
     activeProductKey,
     whichLicenseState,
   } = req.body;
-  console.log(req.body);
   try {
     const send_to = enteredEmail;
     const sent_from = process.env.EMAIL_USER;

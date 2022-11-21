@@ -9,21 +9,22 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
-import AddPK from "./AddPK";
+import AddManually from "../AddManually";
 import { Button, Form, Modal } from "react-bootstrap";
 
-function OPP16PK() {
+function UniqueCodeTable(props) {
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState("");
   const [updated, setUpdated] = useState("");
-  const [updatedStatus, setUpdatedStatus] = useState(true);
   const [clickedID, setClickedID] = useState("");
+  const [updatedStatus, setUpdatedStatus] = useState(true);
 
-  const [OPP16PK, setOPP16PK] = useState([]);
-  const OPP16PKColumn = [
+  const [UC, setUC] = useState([]);
+
+  var UCColumn = [
     {
-      name: "Product Key",
-      selector: (row) => row.ProductKey,
+      name: "Unique code",
+      selector: (row) => row.UniqueCode,
       sortable: true,
     },
     {
@@ -50,7 +51,6 @@ function OPP16PK() {
         },
       ],
     },
-
     {
       name: "Actions",
       maxWidth: "70px",
@@ -81,36 +81,38 @@ function OPP16PK() {
   ];
   const handleClose = () => setShow(false);
   const deleteCode = async (id) => {
-    await deleteDoc(doc(db, "Product key 2016", id));
+    await deleteDoc(doc(db, props.table, id));
   };
   const openModal = (row) => {
     setShow(true);
-    setCurrent(row.ProductKey);
+    setCurrent("");
+    setUpdated(row.UniqueCode);
+    setCurrent(row.UniqueCode);
     setClickedID(row.id);
-    setUpdated(row.ProductKey);
     setUpdatedStatus(row.Status === "Active" ? true : false);
   };
 
   const editCode = async () => {
-    const ref = doc(db, "Product key 2016", clickedID);
+    const ref = doc(db, props.table, clickedID);
     await updateDoc(ref, {
-      ProductKey: updated,
-      Status: updatedStatus == true ? true : false,
+      UniqueCode: updated,
+      Status: updatedStatus,
       UploadDate: new Date(),
     });
     handleClose();
   };
+
   const handleChange = (e) => {
     setUpdatedStatus(!updatedStatus);
   };
 
   useEffect(() => {
-    const q = query(collection(db, "Product key 2016"));
+    const q = query(collection(db, props.table));
     const unsub = onSnapshot(q, (querySnapshot) => {
-      let pp2016PK = [];
+      let UC = [];
       querySnapshot.forEach((doc) => {
-        pp2016PK.push({ ...doc.data(), id: doc.id });
-        pp2016PK.forEach((e) => {
+        UC.push({ ...doc.data(), id: doc.id });
+        UC.forEach((e) => {
           Object.keys(e).forEach((key) => {
             if (key === "Status" && e.Status === true) {
               e.Status = "Active";
@@ -126,17 +128,19 @@ function OPP16PK() {
           });
         });
       });
-      setOPP16PK(pp2016PK);
+      setUC(UC);
     });
     return () => unsub();
   }, []);
   return (
-    <div className='pp-2016'>
+    <div>
       <div className='title-add d-flex flex-column mt-5'>
-        <h1 style={{ fontSize: "1.5rem" }}>Office PP 2016 product keys</h1>
-        <AddPK name={"Product Key"} />
+        <h1 style={{ fontSize: "1.5rem" }}>
+          Office {props.version} {props.table}
+        </h1>
+        <AddManually name={"Unique Code"} />
       </div>
-      <Table data={OPP16PK} columns={OPP16PKColumn} />
+      <Table data={UC} columns={UCColumn} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Product Key</Modal.Title>
@@ -175,4 +179,4 @@ function OPP16PK() {
   );
 }
 
-export default OPP16PK;
+export default UniqueCodeTable;

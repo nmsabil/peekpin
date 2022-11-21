@@ -1,21 +1,21 @@
 import { collection, onSnapshot, query } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-function GetOPP2016UC() {
-  const [OPP16UC, setOPP16UC] = useState([]);
+function GetOPP2016PK() {
+  const [OPP16PK, setOPP16PK] = useState([]);
   useEffect(() => {
-    const q = query(collection(db, "Unique code 2016"));
+    const q = query(collection(db, "Product key 2016"));
     const unsub = onSnapshot(q, (querySnapshot) => {
-      let pp2016UC = [];
+      let pp2016PK = [];
       querySnapshot.forEach((doc) => {
-        pp2016UC.push({ ...doc.data(), id: doc.id });
-        pp2016UC.forEach((e) => {
+        pp2016PK.push({ ...doc.data(), id: doc.id });
+        pp2016PK.forEach((e) => {
           Object.keys(e).forEach((key) => {
-            if (key === "Status" && e.Status === true) {
-              e.Status = "Active";
-            } else if (key === "Status" && e.Status === false) {
-              e.Status = "Inactive";
+            if (key === "status" && e.status === true) {
+              e.status = "Active";
+            } else if (key === "status" && e.status === false) {
+              e.status = "Inactive";
             } else if (key === "UploadDate") {
               let time = new Date(
                 e.UploadDate.seconds * 1000 + e.UploadDate.nanoseconds / 1000000
@@ -26,12 +26,12 @@ function GetOPP2016UC() {
           });
         });
       });
-      setOPP16UC(pp2016UC);
+      setOPP16PK(pp2016PK);
     });
     return () => unsub();
   }, []);
 
-  return OPP16UC;
+  return OPP16PK;
 }
 
-export default GetOPP2016UC;
+export default GetOPP2016PK;

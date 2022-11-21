@@ -15,8 +15,8 @@ import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import GetCustomerData from "../../api/GetCustomerData";
-import GetOPP2016PK from "../../api/GetOPP2016PK";
-import GetOPP2016UC from "../../api/GetOPP2016UC";
+import GetOPP2016PK from "../../api/OPP2016api/GetOPP2016PK";
+import GetOPP2016UC from "../../api/OPP2016api/GetOPP2016UC";
 
 function Home() {
   const navigate = useNavigate();

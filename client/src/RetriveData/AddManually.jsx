@@ -1,7 +1,7 @@
 import { addDoc, collection } from "firebase/firestore";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 
 function AddPK(props) {
   const [code, setCode] = useState("");

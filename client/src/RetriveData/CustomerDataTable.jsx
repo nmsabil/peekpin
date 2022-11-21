@@ -1,10 +1,8 @@
-import { db } from "../firebase";
-import { collection, onSnapshot, query } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import Table from "../components/Table/Table";
+import GetCustomerData from "../api/GetCustomerData";
 
 function CustomerDataTable() {
-  const [customerData, setCustomerData] = useState([]);
+  const customerData = GetCustomerData();
 
   const customerDataColumn = [
     {
@@ -40,28 +38,6 @@ function CustomerDataTable() {
     },
   ];
 
-  useEffect(() => {
-    const q = query(collection(db, "Customer data"));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let customerDataA = [];
-      querySnapshot.forEach((doc) => {
-        customerDataA.push({ ...doc.data(), id: doc.id });
-        customerDataA.forEach((e) => {
-          Object.keys(e).forEach((key) => {
-            if (key === "Time") {
-              let time = new Date(
-                e.Time.seconds * 1000 + e.Time.nanoseconds / 1000000
-              );
-              e.Time.stringTime =
-                time.toDateString() + " " + time.toLocaleTimeString();
-            }
-          });
-        });
-      });
-      setCustomerData(customerDataA);
-    });
-    return () => unsub();
-  }, []);
   return (
     <>
       <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>

@@ -8,8 +8,8 @@ import ProtectedRoute from "./components/ProctedRoute";
 import ProtectedRouteAuthorized from "./components/ProtectedRouteAuthorized";
 import Navigation from "./components/Navigation/Navigation";
 import CustomerDataTable from "./RetriveData/CustomerDataTable";
-import OPP16PKTable from "./RetriveData/OfficePP2016/OPP16PKTable";
-import OPP16UCTable from "./RetriveData/OfficePP2016/OPP16UCTable";
+import UniqueCodeTable from "./RetriveData/UniqueCodeTable/UniqueCodeTable";
+import ProductKeyTable from "./RetriveData/ProductKeyTable/ProductKeyTable";
 import OOPP2016Template from "./components/WebTemplate/OPP2016Template";
 import Upload from "./components/Upload/Upload";
 
@@ -40,7 +40,10 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <OPP16PKTable />
+                        <ProductKeyTable
+                          table={"Product key 2016"}
+                          version={"Pro Plus"}
+                        />
                       </ProtectedRoute>
                     }
                   />
@@ -50,7 +53,10 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <OPP16UCTable />
+                        <UniqueCodeTable
+                          year={"Unique code 2016"}
+                          version={"Pro Plus"}
+                        />
                       </ProtectedRoute>
                     }
                   />
@@ -80,7 +86,23 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <h1>PP 2019</h1>
+                        <ProductKeyTable
+                          table={"Product key 2019"}
+                          version={"Pro Plus"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path='/admin/unique-code-2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <UniqueCodeTable
+                          table={"Unique code 2019"}
+                          version={"Pro Plus"}
+                        />
                       </ProtectedRoute>
                     }
                   />
@@ -90,7 +112,10 @@ function App() {
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <h1>PP 2021</h1>
+                        <UniqueCodeTable
+                          year={"Unique code 2016"}
+                          version={"Pro Plus"}
+                        />
                       </ProtectedRoute>
                     }
                   />

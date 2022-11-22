@@ -42,6 +42,7 @@ function App() {
                           key={"product_key_pp16"}
                           table={"Product key 2016"}
                           version={"Pro Plus"}
+                          title={"Office PP 2016 Product Keys"}
                         />
                       </ProtectedRoute>
                     }
@@ -55,6 +56,7 @@ function App() {
                           key={"product_key_pp19"}
                           table={"Product key 2019"}
                           version={"Pro Plus"}
+                          title={"Office PP 2019 Product Keys"}
                         />
                       </ProtectedRoute>
                     }
@@ -68,6 +70,7 @@ function App() {
                           key={"unique_code_pp16"}
                           table={"Unique code 2016"}
                           version={"Pro Plus"}
+                          title={"Office PP 2016 Unique Codes"}
                         />
                       </ProtectedRoute>
                     }
@@ -81,25 +84,44 @@ function App() {
                           key={"unique_code_pp19"}
                           table={"Unique code 2019"}
                           version={"Pro Plus"}
+                          title={"Office PP 2019 Unique Codes"}
                         />
                       </ProtectedRoute>
                     }
                   />
                   <Route
-                    path='/admin/upload-product-key-2016'
+                    path='/admin/upload/product_keys/pp2016'
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Upload title='Upload PP 2016' />
+                        <Upload title='Upload Product Keys PP 2016' />
                       </ProtectedRoute>
                     }
                   />
                   <Route
-                    path='/admin/upload-unique-code-2016'
+                    path='/admin/upload/unique_codes/pp2016'
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <Upload title='Upload Unique code 2016' />
+                        <Upload title='Upload Unique Codes PP 2016' />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/upload/product_keys/pp2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload Product Keys PP 2019' />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/upload/unique_codes/pp2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload Unique Codes PP 2019' />
                       </ProtectedRoute>
                     }
                   />

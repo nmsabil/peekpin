@@ -133,7 +133,7 @@ function ProductKeyTable(props) {
   return (
     <div className='pp-2019'>
       <div className='title-add d-flex flex-column mt-5'>
-        <h1 style={{ fontSize: "1.5rem" }}>Office PP 2019 product keys</h1>
+        <h1 style={{ fontSize: "1.5rem" }}>{props.title}</h1>
         <AddManually name={"Product Key"} />
       </div>
       <Table data={OPP19PK} columns={OPP19PKColumn} />

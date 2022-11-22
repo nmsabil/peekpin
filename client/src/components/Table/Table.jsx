@@ -19,12 +19,12 @@ function Table(props) {
   };
 
   const handleSelectedDelete = async () => {
-    if (window.location.pathname === "/admin/keys2016") {
+    if (window.location.pathname === "/admin/product_keys/pp2016") {
       for (var selected of selectedRows) {
         await deleteDoc(doc(db, "Product key 2016", selected.id));
       }
       setShowDelete(false);
-    } else if (window.location.pathname === "/admin/unique-code-2016") {
+    } else if (window.location.pathname === "/admin/unique_codes/pp2016") {
       for (var selected of selectedRows) {
         await deleteDoc(doc(db, "Unique code 2016", selected.id));
       }

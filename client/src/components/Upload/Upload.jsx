@@ -4,40 +4,28 @@ import Button from "react-bootstrap/Button";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import * as XLSX from "xlsx";
 
 function Upload(props) {
   const navigate = useNavigate();
-  const [file, setFile] = useState();
   const [array, setArray] = useState([]);
   const [uploaded, setUploaded] = useState(false);
   const fileReader = new FileReader();
 
   // read file as text and pass to a funtion that converts to an array
-  const formHandler = (e) => {
+  const formHandler = async (e) => {
     e.preventDefault();
-    if (file) {
-      fileReader.onload = function (event) {
-        const text = event.target.result;
-        csvFileToArray(text);
-      };
+    const file = e.target["fileUploaded"].files[0];
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const textData = XLSX.utils.sheet_to_txt(worksheet);
 
-      fileReader.readAsText(file);
-    }
-  };
-  // on file change update file state.
-  const handleOnChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  // convert string to array
-  const csvFileToArray = (fileString) => {
-    const fileArray = fileString.split("\n");
-
-    setArray(fileArray);
+    setArray(textData.split("\n"));
   };
 
   const addtoFirebase = async () => {
-    if (window.location.pathname === "/admin/upload-product-key-2016") {
+    if (window.location.pathname === "/admin/upload/product_keys/pp2016") {
       for (var key of array) {
         await addDoc(collection(db, "Product key 2016"), {
           ProductKey: key,
@@ -48,9 +36,11 @@ function Upload(props) {
         setTimeout(() => {
           setUploaded(false);
         }, 1000);
-        navigate("/admin/keys2016");
+        navigate("/admin/product_keys/pp2016");
       }
-    } else if (window.location.pathname === "/admin/upload-unique-code-2016") {
+    } else if (
+      window.location.pathname === "/admin/upload/unique_codes/pp2016"
+    ) {
       for (var key of array) {
         await addDoc(collection(db, "Unique code 2016"), {
           UniqueCode: key,
@@ -61,7 +51,7 @@ function Upload(props) {
         setTimeout(() => {
           setUploaded(false);
         }, 1000);
-        navigate("/admin/unique-code-2016");
+        navigate("/admin/unique_codes/pp2016");
       }
     } else {
     }
@@ -73,14 +63,13 @@ function Upload(props) {
   return (
     <div className='upload'>
       <h1 className='mt-5 mb-3'>{props.title}</h1>
-      <Form onSubmit={formHandler} className='form'>
-        <Form.Group className='mb-3' controlId='name'>
-          <Form.Label></Form.Label>
+      <Form id='upload-form' onSubmit={formHandler} className='form'>
+        <Form.Group className='mb-3'>
           <Form.Control
+            name={"fileUploaded"}
             required
             type={"file"}
-            //   accept={".csv"}
-            onChange={handleOnChange}
+            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
             placeholder='Upload Excel File'
           />
         </Form.Group>
@@ -88,6 +77,7 @@ function Upload(props) {
           Upload
         </Button>
       </Form>
+
       <br />
 
       <h1>{uploaded ? "Uploaded" : ""}</h1>

@@ -6,22 +6,34 @@ import { db } from "../firebase";
 function AddPK(props) {
   const [code, setCode] = useState("");
 
-  const handleSubmit = async (e) => {
+  const AddProductKeyManually = async (which) => {
+    await addDoc(collection(db, which), {
+      ProductKey: code,
+      UploadDate: new Date(),
+      Status: true,
+    });
+    setCode("");
+  };
+
+  const AddUniqueCodeManually = async (which) => {
+    await addDoc(collection(db, which), {
+      UniqueCode: code,
+      UploadDate: new Date(),
+      Status: true,
+    });
+    setCode("");
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (window.location.pathname === "/admin/keys2016") {
-      await addDoc(collection(db, "Product key 2016"), {
-        ProductKey: code,
-        UploadDate: new Date(),
-        Status: true,
-      });
-      setCode("");
-    } else if (window.location.pathname === "/admin/unique-code-2016") {
-      await addDoc(collection(db, "Unique code 2016"), {
-        UniqueCode: code,
-        UploadDate: new Date(),
-        Status: true,
-      });
-      setCode("");
+    if (window.location.pathname === "/admin/product_keys/pp2016") {
+      AddProductKeyManually("Product key 2016");
+    } else if (window.location.pathname === "/admin/unique_codes/pp2016") {
+      AddUniqueCodeManually("Unique code 2016");
+    } else if (window.location.pathname === "/admin/product_keys/pp2019") {
+      AddProductKeyManually("Product key 2019");
+    } else if (window.location.pathname === "/admin/unique_codes/pp2019") {
+      AddUniqueCodeManually("Unique code 2019");
     }
   };
 

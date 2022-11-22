@@ -7,9 +7,9 @@ import { AuthContextProvider } from "./context/Context";
 import ProtectedRoute from "./components/ProctedRoute";
 import ProtectedRouteAuthorized from "./components/ProtectedRouteAuthorized";
 import Navigation from "./components/Navigation/Navigation";
-import CustomerDataTable from "./RetriveData/CustomerDataTable";
-import UniqueCodeTable from "./RetriveData/UniqueCodeTable/UniqueCodeTable";
-import ProductKeyTable from "./RetriveData/ProductKeyTable/ProductKeyTable";
+import CustomerDataTable from "./RetriveTables/CustomerDataTable";
+import UniqueCodeTable from "./RetriveTables/UniqueCodeTable/UniqueCodeTable";
+import ProductKeyTable from "./RetriveTables/ProductKeyTable/ProductKeyTable";
 import OOPP2016Template from "./components/WebTemplate/OPP2016Template";
 import Upload from "./components/Upload/Upload";
 
@@ -22,10 +22,9 @@ function App() {
             <AuthContextProvider>
               <Router>
                 <Routes>
-                  <Route exact path='/' element={<Home />} />
-                  <Route exact path='/login' element={<AdminLogin />} />
+                  <Route path='/' element={<Home />} />
+                  <Route path='/login' element={<AdminLogin />} />
                   <Route
-                    exact
                     path='/admin'
                     element={
                       <ProtectedRoute>
@@ -35,12 +34,12 @@ function App() {
                     }
                   />
                   <Route
-                    exact
-                    path='/admin/keys2016'
+                    path='/admin/product_keys/pp2016'
                     element={
                       <ProtectedRoute>
                         <Navigation />
                         <ProductKeyTable
+                          key={"product_key_pp16"}
                           table={"Product key 2016"}
                           version={"Pro Plus"}
                         />
@@ -48,20 +47,45 @@ function App() {
                     }
                   />
                   <Route
-                    exact
-                    path='/admin/unique-code-2016'
+                    path='/admin/product_keys/pp2019'
                     element={
                       <ProtectedRoute>
                         <Navigation />
-                        <UniqueCodeTable
-                          year={"Unique code 2016"}
+                        <ProductKeyTable
+                          key={"product_key_pp19"}
+                          table={"Product key 2019"}
                           version={"Pro Plus"}
                         />
                       </ProtectedRoute>
                     }
                   />
                   <Route
-                    exact
+                    path='/admin/unique_codes/pp2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <UniqueCodeTable
+                          key={"unique_code_pp16"}
+                          table={"Unique code 2016"}
+                          version={"Pro Plus"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/unique_codes/pp2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <UniqueCodeTable
+                          key={"unique_code_pp19"}
+                          table={"Unique code 2019"}
+                          version={"Pro Plus"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
                     path='/admin/upload-product-key-2016'
                     element={
                       <ProtectedRoute>
@@ -71,7 +95,6 @@ function App() {
                     }
                   />
                   <Route
-                    exact
                     path='/admin/upload-unique-code-2016'
                     element={
                       <ProtectedRoute>
@@ -80,34 +103,8 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+
                   <Route
-                    exact
-                    path='/admin/keys2019'
-                    element={
-                      <ProtectedRoute>
-                        <Navigation />
-                        <ProductKeyTable
-                          table={"Product key 2019"}
-                          version={"Pro Plus"}
-                        />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    exact
-                    path='/admin/unique-code-2019'
-                    element={
-                      <ProtectedRoute>
-                        <Navigation />
-                        <UniqueCodeTable
-                          table={"Unique code 2019"}
-                          version={"Pro Plus"}
-                        />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    exact
                     path='/admin/keys2021'
                     element={
                       <ProtectedRoute>
@@ -120,7 +117,6 @@ function App() {
                     }
                   />
                   <Route
-                    exact
                     path='/authorized_unique_code_pp16'
                     element={
                       <ProtectedRouteAuthorized>

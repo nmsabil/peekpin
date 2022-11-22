@@ -21,12 +21,12 @@ function Navigation() {
             </Nav.Link>
             <NavDropdown title='Product Keys' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
-                <Nav.Link as={Link} to='/admin/keys2016'>
+                <Nav.Link as={Link} to='/admin/product_keys/pp2016'>
                   PP 2016
                 </Nav.Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-                <Nav.Link as={Link} to='/admin/keys2019'>
+                <Nav.Link as={Link} to='/admin/product_keys/pp2019'>
                   PP 2019
                 </Nav.Link>
               </NavDropdown.Item>
@@ -39,12 +39,12 @@ function Navigation() {
 
             <NavDropdown title='Unique Codes' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
-                <Nav.Link as={Link} to='/admin/unique-code-2016'>
+                <Nav.Link as={Link} to='/admin/unique_codes/pp2016'>
                   PP 2016
                 </Nav.Link>
               </NavDropdown.Item>
               <NavDropdown.Item>
-                <Nav.Link as={Link} to='/admin/unique-code-2019'>
+                <Nav.Link as={Link} to='/admin/unique_codes/pp2019'>
                   PP 2019
                 </Nav.Link>
               </NavDropdown.Item>

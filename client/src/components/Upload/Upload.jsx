@@ -12,6 +12,66 @@ function Upload(props) {
   const [uploaded, setUploaded] = useState(false);
   const fileReader = new FileReader();
 
+  const UploadProductKeyManually = async (which, url) => {
+    for (var key of array) {
+      await addDoc(collection(db, which), {
+        ProductKey: key,
+        UploadDate: new Date(),
+        Status: true,
+      });
+      setUploaded(true);
+      setTimeout(() => {
+        setUploaded(false);
+      }, 1000);
+      navigate(url);
+    }
+  };
+
+  const UploadUniqueCodeManually = async (which, url) => {
+    for (var key of array) {
+      await addDoc(collection(db, which), {
+        UniqueCode: key,
+        UploadDate: new Date(),
+        Status: true,
+      });
+      setUploaded(true);
+      setTimeout(() => {
+        setUploaded(false);
+      }, 1000);
+      navigate(url);
+    }
+  };
+
+  const addtoFirebase = async () => {
+    if (window.location.pathname === "/admin/upload/product_keys/pp2016") {
+      UploadProductKeyManually(
+        "Product key 2016",
+        "/admin/product_keys/pp2016"
+      );
+    } else if (
+      window.location.pathname === "/admin/upload/unique_codes/pp2016"
+    ) {
+      UploadUniqueCodeManually(
+        "Unique code 2016",
+        "/admin/unique_codes/pp2016"
+      );
+    } else if (
+      window.location.pathname === "/admin/upload/product_keys/pp2019"
+    ) {
+      UploadProductKeyManually(
+        "Product key 2019",
+        "/admin/product_keys/pp2019"
+      );
+    } else if (
+      window.location.pathname === "/admin/upload/unique_codes/pp2019"
+    ) {
+      UploadUniqueCodeManually(
+        "Unique code 2019",
+        "/admin/unique_codes/pp2019"
+      );
+    }
+  };
+
   // read file as text and pass to a funtion that converts to an array
   const formHandler = async (e) => {
     e.preventDefault();
@@ -24,38 +84,6 @@ function Upload(props) {
     setArray(textData.split("\n"));
   };
 
-  const addtoFirebase = async () => {
-    if (window.location.pathname === "/admin/upload/product_keys/pp2016") {
-      for (var key of array) {
-        await addDoc(collection(db, "Product key 2016"), {
-          ProductKey: key,
-          UploadDate: new Date(),
-          Status: true,
-        });
-        setUploaded(true);
-        setTimeout(() => {
-          setUploaded(false);
-        }, 1000);
-        navigate("/admin/product_keys/pp2016");
-      }
-    } else if (
-      window.location.pathname === "/admin/upload/unique_codes/pp2016"
-    ) {
-      for (var key of array) {
-        await addDoc(collection(db, "Unique code 2016"), {
-          UniqueCode: key,
-          UploadDate: new Date(),
-          Status: true,
-        });
-        setUploaded(true);
-        setTimeout(() => {
-          setUploaded(false);
-        }, 1000);
-        navigate("/admin/unique_codes/pp2016");
-      }
-    } else {
-    }
-  };
   useEffect(() => {
     addtoFirebase();
   }, [array]);

@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import AddManually from "../AddManually";
 import { Button, Form, Modal } from "react-bootstrap";
+import GetUniqueCodesData from "../../api/GetUniqueCodesData";
 
 function UniqueCodeTable(props) {
+  const GetAllUC = GetUniqueCodesData(props.table);
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState("");
   const [updated, setUpdated] = useState("");
@@ -107,31 +109,8 @@ function UniqueCodeTable(props) {
   };
 
   useEffect(() => {
-    const q = query(collection(db, props.table));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let UC = [];
-      querySnapshot.forEach((doc) => {
-        UC.push({ ...doc.data(), id: doc.id });
-        UC.forEach((e) => {
-          Object.keys(e).forEach((key) => {
-            if (key === "Status" && e.Status === true) {
-              e.Status = "Active";
-            } else if (key === "Status" && e.Status === false) {
-              e.Status = "Inactive";
-            } else if (key === "UploadDate") {
-              let time = new Date(
-                e.UploadDate.seconds * 1000 + e.UploadDate.nanoseconds / 1000000
-              );
-              e.UploadDate.stringTime =
-                time.toDateString() + " " + time.toLocaleTimeString();
-            }
-          });
-        });
-      });
-      setUC(UC);
-    });
-    return () => unsub();
-  }, []);
+    setUC(GetAllUC);
+  }, [GetAllUC]);
   return (
     <div>
       <div className='title-add d-flex flex-column mt-5'>

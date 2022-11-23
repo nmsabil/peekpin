@@ -17,7 +17,9 @@ function GetCustomerData() {
                 e.Time.seconds * 1000 + e.Time.nanoseconds / 1000000
               );
               e.Time.stringTime =
-                time.toDateString() + " " + time.toLocaleTimeString();
+                time.toDateString("en-GB", { timeZone: "Europe/London" }) +
+                " " +
+                time.toLocaleTimeString("en-GB", { timeZone: "Europe/London" });
             }
           });
         });

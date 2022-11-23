@@ -1,5 +1,5 @@
 import Table from "../components/Table/Table";
-import GetCustomerData from "../api/GetCustomerData";
+import GetCustomerData from "../api/GetCustomerData.jsx";
 
 function CustomerDataTable() {
   const customerData = GetCustomerData();
@@ -43,7 +43,7 @@ function CustomerDataTable() {
       <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>
         Customers data
       </h1>
-      <Table data={customerData} columns={customerDataColumn} />
+      <Table data={customerData} columns={customerDataColumn} columnId={6} />
     </>
   );
 }

@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 import Loader from "../Loader.jxs/Loader";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Button } from "react-bootstrap";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase";
 
 function Table(props) {
@@ -14,21 +14,34 @@ function Table(props) {
   const [showDelete, setShowDelete] = React.useState(false);
 
   const handleChange = ({ selectedRows }) => {
+    console.log(selectedRows);
     setSelectedRows(selectedRows);
     selectedRows.length >= 1 ? setShowDelete(true) : setShowDelete(false);
   };
 
+  const deleteSelectedHelper = async (which) => {
+    let selectedRowsIdtoDelete = [];
+    for (var selected of selectedRows) {
+      selectedRowsIdtoDelete.push(selected.id);
+    }
+    const batch = writeBatch(db);
+    selectedRowsIdtoDelete.forEach((docId) => {
+      batch.delete(doc(db, which, docId));
+    });
+    await batch.commit();
+    selectedRowsIdtoDelete = [];
+    setShowDelete(false);
+  };
+
   const handleSelectedDelete = async () => {
     if (window.location.pathname === "/admin/product_keys/pp2016") {
-      for (var selected of selectedRows) {
-        await deleteDoc(doc(db, "Product key 2016", selected.id));
-      }
-      setShowDelete(false);
+      deleteSelectedHelper("Product key 2016");
     } else if (window.location.pathname === "/admin/unique_codes/pp2016") {
-      for (var selected of selectedRows) {
-        await deleteDoc(doc(db, "Unique code 2016", selected.id));
-      }
-      setShowDelete(false);
+      deleteSelectedHelper("Unique code 2016");
+    } else if (window.location.pathname === "/admin/product_keys/pp2019") {
+      deleteSelectedHelper("Product key 2019");
+    } else if (window.location.pathname === "/admin/unique_codes/pp2019") {
+      deleteSelectedHelper("Unique code 2019");
     }
   };
 
@@ -79,6 +92,8 @@ function Table(props) {
           progressPending={pending}
           onSelectedRowsChange={handleChange}
           progressComponent={<Loader />}
+          defaultSortFieldId={props.columnId}
+          defaultSortAsc={false}
         />
       </DataTableExtensions>
     </div>

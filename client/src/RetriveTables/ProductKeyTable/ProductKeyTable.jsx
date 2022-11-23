@@ -12,15 +12,19 @@ import Table from "../../components/Table/Table";
 import AddManually from "../AddManually";
 import { Button, Form, Modal } from "react-bootstrap";
 
+import GetProductKeysData from "../../api/GetProductKeysData";
+
 function ProductKeyTable(props) {
+  const getAllPK = GetProductKeysData(props.table);
   const [show, setShow] = useState(false);
   const [current, setCurrent] = useState("");
   const [updated, setUpdated] = useState("");
   const [updatedStatus, setUpdatedStatus] = useState(true);
   const [clickedID, setClickedID] = useState("");
 
-  const [OPP19PK, setOPP19PK] = useState([]);
-  const OPP19PKColumn = [
+  const [PK, setPK] = useState([]);
+
+  const PKColumn = [
     {
       name: "Product Key",
       selector: (row) => row.ProductKey,
@@ -105,38 +109,15 @@ function ProductKeyTable(props) {
   };
 
   useEffect(() => {
-    const q = query(collection(db, props.table));
-    const unsub = onSnapshot(q, (querySnapshot) => {
-      let pp2019PK = [];
-      querySnapshot.forEach((doc) => {
-        pp2019PK.push({ ...doc.data(), id: doc.id });
-        pp2019PK.forEach((e) => {
-          Object.keys(e).forEach((key) => {
-            if (key === "Status" && e.Status === true) {
-              e.Status = "Active";
-            } else if (key === "Status" && e.Status === false) {
-              e.Status = "Inactive";
-            } else if (key === "UploadDate") {
-              let time = new Date(
-                e.UploadDate.seconds * 1000 + e.UploadDate.nanoseconds / 1000000
-              );
-              e.UploadDate.stringTime =
-                time.toDateString() + " " + time.toLocaleTimeString();
-            }
-          });
-        });
-      });
-      setOPP19PK(pp2019PK);
-    });
-    return () => unsub();
-  }, []);
+    setPK(getAllPK);
+  }, [getAllPK]);
   return (
     <div className='pp-2019'>
       <div className='title-add d-flex flex-column mt-5'>
         <h1 style={{ fontSize: "1.5rem" }}>{props.title}</h1>
         <AddManually name={"Product Key"} />
       </div>
-      <Table data={OPP19PK} columns={OPP19PKColumn} />
+      <Table data={PK} columns={PKColumn} columnId={2} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Product Key</Modal.Title>

@@ -14,15 +14,15 @@ import {
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
-import GetCustomerData from "../../api/GetCustomerData";
-import GetOPP2016PK from "../../api/OPP2016api/GetOPP2016PK";
-import GetOPP2016UC from "../../api/OPP2016api/GetOPP2016UC";
+import GetCustomerData from "../../api/GetCustomerData.jsx";
+import GetProductKeysData from "../../api/GetProductKeysData";
+import GetUniqueCodesData from "../../api/GetUniqueCodesData";
 
 function Home() {
   const navigate = useNavigate();
   // Office pp 2016 data
-  const OPP16UC = GetOPP2016UC();
-  const OPP16PK = GetOPP2016PK();
+  const OPP16UC = GetUniqueCodesData("Unique code 2016");
+  const OPP16PK = GetProductKeysData("Product key 2016");
   // customer data
   const customerData = GetCustomerData();
   const [message, setMessage] = useState("");

@@ -10,6 +10,8 @@ import {
   onSnapshot,
   query,
   updateDoc,
+  where,
+  getDocs,
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
@@ -23,8 +25,11 @@ function Home() {
   // Office pp 2016 data
   const OPP16UC = GetUniqueCodesData("Unique code 2016");
   const OPP16PK = GetProductKeysData("Product key 2016");
+  const OPP19UC = GetUniqueCodesData("Unique code 2019");
+  const OPP19PK = GetProductKeysData("Product key 2019");
   // customer data
   const customerData = GetCustomerData();
+
   const [message, setMessage] = useState("");
   const [activeProductKey, setActiveProductKey] = useState("");
   const [activeProductKeyID, setActiveProductKeyID] = useState("");
@@ -33,9 +38,7 @@ function Home() {
   const [enteredName, setEnteredName] = useState("");
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
 
-  const [whichLicense, setWhichLicense] = useState(
-    "Office Professional Plus 2016"
-  );
+  const [whichLicense, setWhichLicense] = useState("");
 
   const [foundUniqueCode, setFoundUniqueCode] = useState(false);
 
@@ -59,57 +62,88 @@ function Home() {
     await axios.post("http://localhost:5000/api/sendemail", data);
   };
 
+  let UniqueCodeLogic = (e, objectuc, which, pkTable) => {
+    if (
+      objectuc.Status === "Inactive" &&
+      objectuc.UniqueCode === e.target[1].value
+    ) {
+      setMessage("");
+      customerData.forEach((each) => {
+        if (each.UniqueCode === e.target[1].value) {
+          navigate("/authorized_unique_code_pp16", {
+            state: { productKey: each.ProductKey, auth: true },
+          });
+          enteredInactiveUniqueCode(each);
+          sendEmail(
+            enteredEmail,
+            enteredName,
+            enteredUniqueCode,
+            each.ProductKey,
+            whichLicense
+          );
+        }
+      });
+    } else if (objectuc.UniqueCode === e.target[1].value) {
+      pkTable.forEach((objectpk) => {
+        if (objectpk.Status === "Active") {
+          setActiveProductKey(objectpk.ProductKey);
+          setActiveProductKeyID(objectpk.id);
+          setWhichLicense(which);
+          setFoundUniqueCode(true);
+          setActiveUniqueCodeID(objectuc.id);
+          setMessage("");
+          sendEmail(
+            enteredEmail,
+            enteredName,
+            enteredUniqueCode,
+            activeProductKey,
+            whichLicense
+          );
+        } else {
+          setMessage("Our system is under maintenance for 6 hours");
+        }
+      });
+    }
+  };
+
   let handleSubmit = (e) => {
     e.preventDefault();
-    // loop the unique code array to find unique code typed in the input
-    OPP16UC.forEach((objectuc) => {
-      if (
-        objectuc.Status === "Inactive" &&
-        objectuc.UniqueCode === e.target[1].value
-      ) {
-        setMessage("");
+    // find unique codes in one of the tables
+    let uniqueCodeFound2016 = OPP16UC.find(
+      (o) => o.UniqueCode === e.target[1].value
+    );
+    let uniqueCodeFound2019 = OPP19UC.find(
+      (o) => o.UniqueCode === e.target[1].value
+    );
 
-        customerData.forEach((each) => {
-          if (each.UniqueCode === e.target[1].value) {
-            navigate("/authorized_unique_code_pp16", {
-              state: { productKey: each.ProductKey, auth: true },
-            });
-            sendEmail(
-              enteredEmail,
-              enteredName,
-              enteredUniqueCode,
-              each.ProductKey,
-              whichLicense
-            );
-          }
-        });
-      } else if (objectuc.UniqueCode === e.target[1].value) {
-        setFoundUniqueCode(true);
-        setActiveUniqueCodeID(objectuc.id);
-        setMessage("");
-        sendEmail(
-          enteredEmail,
-          enteredName,
-          enteredUniqueCode,
-          activeProductKey,
-          whichLicense
-        );
-        // todo set product key and which license for someone using the unique code for the first time.
-      } else {
-        setMessage("Unique code is invalid.");
-      }
+    if (uniqueCodeFound2016) {
+      UniqueCodeLogic(e, uniqueCodeFound2016, "2016", OPP16PK);
+    } else if (uniqueCodeFound2019) {
+      UniqueCodeLogic(e, uniqueCodeFound2019, "2019", OPP19PK);
+    } else {
+      setMessage("Invalid Unique code");
+    }
+  };
+
+  // helper function to update doc when inactive unique code is entered.
+  let enteredInactiveUniqueCode = async (cd) => {
+    const refcd = doc(db, "Customer data", cd.id);
+    await updateDoc(refcd, {
+      Email: enteredEmail,
+      Name: enteredName,
+      Time: new Date(),
+      UniqueCode: enteredUniqueCode,
     });
-    // loop the product keys and find one that's active.
-    OPP16PK.forEach((objectpk) => {
-      if (objectpk.Status === true) {
-        setActiveProductKey(objectpk.ProductKey);
-        setActiveProductKeyID(objectpk.id);
-      }
-    });
+    sendEmail(
+      enteredEmail,
+      enteredName,
+      enteredUniqueCode,
+      cd.ProductKey,
+      whichLicense
+    );
   };
 
   useEffect(() => {
-    // display active product key on another page
     if (foundUniqueCode && activeProductKey.length > 0) {
       async function addToCustomerDataTable() {
         await addDoc(collection(db, "Customer data"), {
@@ -118,13 +152,21 @@ function Home() {
           ProductKey: activeProductKey,
           Time: new Date(),
           UniqueCode: enteredUniqueCode,
-          Year: 2016,
+          Year: whichLicense,
         });
-        const refuc = doc(db, "Unique code 2016", activeUniqueCodeID);
+        const refuc = doc(
+          db,
+          `Unique code ${whichLicense}`,
+          activeUniqueCodeID
+        );
         await updateDoc(refuc, {
           Status: false,
         });
-        const refpk = doc(db, "Product key 2016", activeProductKeyID);
+        const refpk = doc(
+          db,
+          `Product key ${whichLicense}`,
+          activeProductKeyID
+        );
         await updateDoc(refpk, {
           Status: false,
         });

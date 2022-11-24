@@ -42,6 +42,8 @@ function Table(props) {
       deleteSelectedHelper("Product key 2019");
     } else if (window.location.pathname === "/admin/unique_codes/pp2019") {
       deleteSelectedHelper("Unique code 2019");
+    } else if (window.location.pathname === "/admin") {
+      deleteSelectedHelper("Customer data");
     }
   };
 

@@ -10,7 +10,7 @@ import Navigation from "./components/Navigation/Navigation";
 import CustomerDataTable from "./RetriveTables/CustomerDataTable";
 import UniqueCodeTable from "./RetriveTables/UniqueCodeTable/UniqueCodeTable";
 import ProductKeyTable from "./RetriveTables/ProductKeyTable/ProductKeyTable";
-import OOPP2016Template from "./components/WebTemplate/OPP2016Template";
+import OOPP2016Template from "./components/WebTemplate/OPPOnlineTemplate";
 import Upload from "./components/Upload/Upload";
 
 function App() {
@@ -139,7 +139,7 @@ function App() {
                     }
                   />
                   <Route
-                    path='/authorized_unique_code_pp16'
+                    path='/authorized'
                     element={
                       <ProtectedRouteAuthorized>
                         <OOPP2016Template />

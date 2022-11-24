@@ -3,16 +3,7 @@ import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import {
-  addDoc,
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
@@ -63,6 +54,7 @@ function Home() {
   };
 
   let UniqueCodeLogic = (e, objectuc, which, pkTable) => {
+    // if unique code is inactive but exists in the table then update customer data and resend email
     if (
       objectuc.Status === "Inactive" &&
       objectuc.UniqueCode === e.target[1].value
@@ -70,8 +62,14 @@ function Home() {
       setMessage("");
       customerData.forEach((each) => {
         if (each.UniqueCode === e.target[1].value) {
-          navigate("/authorized_unique_code_pp16", {
-            state: { productKey: each.ProductKey, auth: true },
+          navigate("/authorized", {
+            state: {
+              productKey: activeProductKey,
+              auth: true,
+              software: whichLicense,
+              email: enteredEmail,
+              uniqueCode: enteredUniqueCode,
+            },
           });
           enteredInactiveUniqueCode(each);
           sendEmail(
@@ -83,7 +81,11 @@ function Home() {
           );
         }
       });
-    } else if (objectuc.UniqueCode === e.target[1].value) {
+      // if unique code is inactive but exists in the table then find an active product key from the correct table and send email
+    } else if (
+      objectuc.Status === "Active" &&
+      objectuc.UniqueCode === e.target[1].value
+    ) {
       pkTable.forEach((objectpk) => {
         if (objectpk.Status === "Active") {
           setActiveProductKey(objectpk.ProductKey);
@@ -100,6 +102,7 @@ function Home() {
             whichLicense
           );
         } else {
+          // if no active product key is in the table show message.
           setMessage("Our system is under maintenance for 6 hours");
         }
       });
@@ -116,6 +119,7 @@ function Home() {
       (o) => o.UniqueCode === e.target[1].value
     );
 
+    // check in which table the unique code was found and pass correct arguments.
     if (uniqueCodeFound2016) {
       UniqueCodeLogic(e, uniqueCodeFound2016, "2016", OPP16PK);
     } else if (uniqueCodeFound2019) {
@@ -144,6 +148,8 @@ function Home() {
   };
 
   useEffect(() => {
+    //  runs if foundUniqueCode is true and active product key is available
+    // when user enteres the code for the first time.
     if (foundUniqueCode && activeProductKey.length > 0) {
       async function addToCustomerDataTable() {
         await addDoc(collection(db, "Customer data"), {
@@ -171,8 +177,14 @@ function Home() {
           Status: false,
         });
       }
-      navigate("/authorized_unique_code_pp16", {
-        state: { productKey: activeProductKey, auth: true },
+      navigate("/authorized", {
+        state: {
+          productKey: activeProductKey,
+          auth: true,
+          software: whichLicense,
+          email: enteredEmail,
+          uniqueCode: enteredUniqueCode,
+        },
       });
       addToCustomerDataTable();
     }

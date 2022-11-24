@@ -1,0 +1,30 @@
+.templateStyle {
+  height: 100vh;
+  .inputToDisplayLicense,
+  .inputToDisplayLicense:focus {
+    border: 1px solid black;
+    box-shadow: none;
+  }
+  .product-key {
+    background: linear-gradient(
+      to right bottom,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.1)
+    );
+    box-shadow: 13px 13px 21px -18px #333;
+  }
+  .instructions {
+    text-align: left;
+    margin-bottom: 0px;
+    padding-left: 1.2rem;
+    a {
+      color: #14d101;
+    }
+  }
+  .text-left {
+    text-align: left;
+  }
+  .logo-link {
+    color: white;
+  }
+}

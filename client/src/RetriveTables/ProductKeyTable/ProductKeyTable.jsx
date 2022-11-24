@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import AddManually from "../AddManually";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 
 import GetProductKeysData from "../../api/GetProductKeysData";
 
@@ -100,7 +100,6 @@ function ProductKeyTable(props) {
     await updateDoc(ref, {
       ProductKey: updated,
       Status: updatedStatus == true ? true : false,
-      UploadDate: new Date(),
     });
     handleClose();
   };
@@ -115,7 +114,17 @@ function ProductKeyTable(props) {
     <div className='pp-2019'>
       <div className='title-add d-flex flex-column mt-5'>
         <h1 style={{ fontSize: "1.5rem" }}>{props.title}</h1>
-        <AddManually name={"Product Key"} />
+        <div className='d-flex justify-content-between align-items-center '>
+          <AddManually name={"Product Key"} />
+          <div className='d-flex'>
+            <div style={{ marginRight: "10px" }} className='text-success'>
+              Active: {PK.filter((obj) => obj.Status === "Active").length}
+            </div>
+            <div className='text-danger'>
+              Inactive: {PK.filter((obj) => obj.Status === "Inactive").length}
+            </div>
+          </div>
+        </div>
       </div>
       <Table data={PK} columns={PKColumn} columnId={2} />
       <Modal show={show} onHide={handleClose}>

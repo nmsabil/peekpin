@@ -99,7 +99,6 @@ function UniqueCodeTable(props) {
     await updateDoc(ref, {
       UniqueCode: updated,
       Status: updatedStatus,
-      UploadDate: new Date(),
     });
     handleClose();
   };
@@ -115,9 +114,19 @@ function UniqueCodeTable(props) {
     <div>
       <div className='title-add d-flex flex-column mt-5'>
         <h1 style={{ fontSize: "1.5rem" }}>{props.title}</h1>
-        <AddManually name={"Unique Code"} />
+        <div className='d-flex justify-content-between align-items-center '>
+          <AddManually name={"Unique Code"} />
+          <div className='d-flex'>
+            <div style={{ marginRight: "10px" }} className='text-success'>
+              Active: {UC.filter((obj) => obj.Status === "Active").length}
+            </div>
+            <div className='text-danger'>
+              Inactive: {UC.filter((obj) => obj.Status === "Inactive").length}
+            </div>
+          </div>
+        </div>
       </div>
-      <Table data={UC} columns={UCColumn} />
+      <Table data={UC} columns={UCColumn} columnId={2} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Product Key</Modal.Title>

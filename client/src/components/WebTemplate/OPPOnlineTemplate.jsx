@@ -2,16 +2,16 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
-import { Card, ListGroup } from "react-bootstrap";
 
 function OPP2016Template() {
   const { state } = useLocation();
-  const { productKey, auth, software, email, uniqueCode } = state;
+  const { productKey, auth, software, email, uniqueCode, status } = state;
 
   return (
     <div className='templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '>
       <div className='template'>
         <div className='product-key px-5 py-5 text-dark rounded text-center'>
+          <h1>{status}</h1>
           <a href=''>
             <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
           </a>

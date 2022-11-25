@@ -30,9 +30,10 @@ function Home() {
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
 
   const [whichLicense, setWhichLicense] = useState("");
+  const [emailStatus, setEmailStatus] = useState(false);
 
   const [foundUniqueCode, setFoundUniqueCode] = useState(false);
-
+  let emailSent = false;
   const form = useRef();
 
   const sendEmail = async (
@@ -50,7 +51,22 @@ function Home() {
       whichLicenseState,
     };
 
-    await axios.post("http://localhost:5000/api/sendemail", data);
+    let sent = false;
+
+    await axios
+      .post("http://localhost:5000/api/sendemail", data)
+      .then((res) => {
+        if (res.status === 200) {
+          sent = true;
+        }
+      })
+      .catch((err) => {
+        sent = false;
+      });
+
+    emailSent = sent;
+    setEmailStatus(sent);
+    console.log(emailStatus);
   };
 
   let UniqueCodeLogic = (e, objectuc, which, pkTable) => {
@@ -82,11 +98,6 @@ function Home() {
       pkTable.forEach((objectpk) => {
         if (objectpk.Status === "Active") {
           setActiveProductKey(objectpk.ProductKey);
-          setActiveProductKeyID(objectpk.id);
-          setWhichLicense(which);
-          setFoundUniqueCode(true);
-          setActiveUniqueCodeID(objectuc.id);
-          setMessage("");
           sendEmail(
             enteredEmail,
             enteredName,
@@ -94,6 +105,11 @@ function Home() {
             activeProductKey,
             whichLicense
           );
+          setActiveProductKeyID(objectpk.id);
+          setWhichLicense(which);
+          setFoundUniqueCode(true);
+          setActiveUniqueCodeID(objectuc.id);
+          setMessage("");
         } else {
           // if no active product key is in the table show message.
           setMessage("Our system is under maintenance for 6 hours");
@@ -122,28 +138,11 @@ function Home() {
     }
   };
 
-  // helper function to update doc when inactive unique code is entered.
-  let UpdateExisting = async (cd) => {
-    const refcd = doc(db, "Customer data", cd.id);
-    await updateDoc(refcd, {
-      Email: enteredEmail,
-      Name: enteredName,
-      UniqueCode: enteredUniqueCode,
-    });
-    sendEmail(
-      enteredEmail,
-      enteredName,
-      enteredUniqueCode,
-      cd.ProductKey,
-      whichLicense
-    );
-  };
-
   useEffect(() => {
     //  runs if foundUniqueCode is true and active product key is available
     // when user enteres the code for the first time.
     if (foundUniqueCode && activeProductKey.length > 0) {
-      async function addToCustomerDataTable() {
+      async function addToCustomerDataTable(status) {
         await addDoc(collection(db, "Customer data"), {
           Email: enteredEmail,
           Name: enteredName,
@@ -151,6 +150,7 @@ function Home() {
           Time: new Date(),
           UniqueCode: enteredUniqueCode,
           Year: whichLicense,
+          Sent: status,
         });
         const refuc = doc(
           db,
@@ -178,9 +178,34 @@ function Home() {
           uniqueCode: enteredUniqueCode,
         },
       });
-      addToCustomerDataTable();
+      setTimeout(() => {
+        let status = emailStatus === true ? "Sent" : "Not Sent";
+        addToCustomerDataTable(status);
+      }, 1500);
     }
   }, [foundUniqueCode, activeProductKey]);
+  // helper function to update doc when inactive unique code is entered.
+  let UpdateExisting = (cd) => {
+    sendEmail(
+      enteredEmail,
+      enteredName,
+      enteredUniqueCode,
+      cd.ProductKey,
+      whichLicense
+    );
+
+    // setting timeout to wait for emailSent to be assigned from async function
+    const refcd = doc(db, "Customer data", cd.id);
+    setTimeout(async () => {
+      let status = emailSent === true ? "Sent" : "Not Sent";
+      await updateDoc(refcd, {
+        Email: enteredEmail,
+        Name: enteredName,
+        UniqueCode: enteredUniqueCode,
+        Sent: status,
+      });
+    }, 1000);
+  };
 
   return (
     <div className='home d-flex justify-content-center align-items-center flex-direction-column flex-column'>

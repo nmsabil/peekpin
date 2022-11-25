@@ -64,21 +64,14 @@ function Home() {
         if (each.UniqueCode === e.target[1].value) {
           navigate("/authorized", {
             state: {
-              productKey: activeProductKey,
+              productKey: each.ProductKey,
               auth: true,
               software: whichLicense,
               email: enteredEmail,
               uniqueCode: enteredUniqueCode,
             },
           });
-          enteredInactiveUniqueCode(each);
-          sendEmail(
-            enteredEmail,
-            enteredName,
-            enteredUniqueCode,
-            each.ProductKey,
-            whichLicense
-          );
+          UpdateExisting(each);
         }
       });
       // if unique code is inactive but exists in the table then find an active product key from the correct table and send email
@@ -130,12 +123,11 @@ function Home() {
   };
 
   // helper function to update doc when inactive unique code is entered.
-  let enteredInactiveUniqueCode = async (cd) => {
+  let UpdateExisting = async (cd) => {
     const refcd = doc(db, "Customer data", cd.id);
     await updateDoc(refcd, {
       Email: enteredEmail,
       Name: enteredName,
-      Time: new Date(),
       UniqueCode: enteredUniqueCode,
     });
     sendEmail(

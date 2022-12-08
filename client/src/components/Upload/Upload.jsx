@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { db } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 
@@ -13,18 +13,22 @@ function Upload(props) {
   const fileReader = new FileReader();
 
   const UploadProductKeyManually = async (which, url) => {
-    for (var key of array) {
-      await addDoc(collection(db, which), {
-        ProductKey: key,
+    let arrayBatch = [];
+    for (var each of array) {
+      arrayBatch.push({
+        ProductKey: each,
         UploadDate: new Date(),
         Status: true,
       });
-      setUploaded(true);
-      setTimeout(() => {
-        setUploaded(false);
-      }, 1000);
-      navigate(url);
     }
+    const batch = writeBatch(db);
+    arrayBatch.forEach((item) => {
+      // Creates a DocRef with random ID
+      const docRef = doc(collection(db, `Product key ${which}`));
+      batch.set(docRef, item);
+    });
+    await batch.commit();
+    // navigate(url);
   };
 
   const UploadUniqueCodeManually = async (which, url) => {

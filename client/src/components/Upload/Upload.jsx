@@ -28,6 +28,7 @@ function Upload(props) {
       batch.set(docRef, item);
     });
     await batch.commit();
+    // navigate to the url after batch.commit
     // navigate(url);
   };
 

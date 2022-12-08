@@ -14,7 +14,6 @@ function Table(props) {
   const [showDelete, setShowDelete] = React.useState(false);
 
   const handleChange = ({ selectedRows }) => {
-    console.log(selectedRows);
     setSelectedRows(selectedRows);
     selectedRows.length >= 1 ? setShowDelete(true) : setShowDelete(false);
   };

@@ -29,6 +29,7 @@ function Home() {
 
   const form = useRef();
 
+  // Returns data to backend to send email and set status on email on customer data table
   const sendEmail = async (
     enteredEmail,
     enteredName,
@@ -59,9 +60,10 @@ function Home() {
     });
   };
 
+  // Checks to find if the unique code is existing in CD table or New unique code
   let handleSubmit = (e) => {
     e.preventDefault();
-    // check to find if the unique code is used or new in firebase
+
     let foundInCustomerData = customerData.find(
       (o) => o.UniqueCode === e.target[1].value
     );
@@ -82,7 +84,7 @@ function Home() {
     }
   };
 
-  // Updated uc & pk status, adds cd, navigates to pk page and emails
+  // -Update uc & pk status -Adds new CD -Navigates to PK page -Send emails
   let newCustomer = async (foundUnique, year, pkData) => {
     let activeProductKey = pkData
       .slice()
@@ -120,6 +122,7 @@ function Home() {
     }
   };
 
+  // -Navigate to PK page -Update CD table -Send email
   let existingCustomer = async (foundCustomer) => {
     navigate("/authorized", {
       state: {

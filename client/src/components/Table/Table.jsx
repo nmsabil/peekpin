@@ -90,7 +90,8 @@ function Table(props) {
           columns={columns}
           data={data}
           pagination
-          selectableRows
+          selectableRows={true}
+          // selectableRows={props.selectable === false ? false : true}
           progressPending={pending}
           onSelectedRowsChange={handleChange}
           progressComponent={<Loader />}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
@@ -20,191 +20,124 @@ function Home() {
   const OPP19PK = GetProductKeysData("Product key 2019");
   // customer data
   const customerData = GetCustomerData();
-
+  // message
   const [message, setMessage] = useState("");
-  const [activeProductKey, setActiveProductKey] = useState("");
-  const [activeProductKeyID, setActiveProductKeyID] = useState("");
-  const [activeUniqueCodeID, setActiveUniqueCodeID] = useState("");
+  // input fields
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredUniqueCode, setEnteredUniqueCode] = useState("");
 
-  const [whichLicense, setWhichLicense] = useState("");
-  const [emailStatus, setEmailStatus] = useState(false);
-
-  const [foundUniqueCode, setFoundUniqueCode] = useState(false);
-  let emailSent = false;
   const form = useRef();
 
   const sendEmail = async (
     enteredEmail,
     enteredName,
     enteredUniqueCode,
-    activeProductKey,
-    whichLicenseState
+    refofCustomer
   ) => {
     const data = {
       enteredEmail,
       enteredName,
       enteredUniqueCode,
-      activeProductKey,
-      whichLicenseState,
+      refofCustomer,
     };
 
-    let sent = false;
-
+    let status;
     await axios
       .post("http://localhost:5000/api/sendemail", data)
       .then((res) => {
         if (res.status === 200) {
-          sent = true;
+          status = "Sent";
         }
       })
       .catch((err) => {
-        sent = false;
+        status = "Failed";
       });
 
-    emailSent = sent;
-    setEmailStatus(sent);
-    console.log(emailStatus);
-  };
-
-  let UniqueCodeLogic = (e, objectuc, which, pkTable) => {
-    // if unique code is inactive but exists in the table then update customer data and resend email
-    if (
-      objectuc.Status === "Inactive" &&
-      objectuc.UniqueCode === e.target[1].value
-    ) {
-      setMessage("");
-      customerData.forEach((each) => {
-        if (each.UniqueCode === e.target[1].value) {
-          navigate("/authorized", {
-            state: {
-              productKey: each.ProductKey,
-              auth: true,
-              software: whichLicense,
-              email: enteredEmail,
-              uniqueCode: enteredUniqueCode,
-            },
-          });
-          UpdateExisting(each);
-        }
-      });
-      // if unique code is inactive but exists in the table then find an active product key from the correct table and send email
-    } else if (
-      objectuc.Status === "Active" &&
-      objectuc.UniqueCode === e.target[1].value
-    ) {
-      pkTable.forEach((objectpk) => {
-        if (objectpk.Status === "Active") {
-          setActiveProductKey(objectpk.ProductKey);
-          sendEmail(
-            enteredEmail,
-            enteredName,
-            enteredUniqueCode,
-            activeProductKey,
-            whichLicense
-          );
-          setActiveProductKeyID(objectpk.id);
-          setWhichLicense(which);
-          setFoundUniqueCode(true);
-          setActiveUniqueCodeID(objectuc.id);
-          setMessage("");
-        } else {
-          // if no active product key is in the table show message.
-          setMessage("Our system is under maintenance for 6 hours");
-        }
-      });
-    }
+    await updateDoc(refofCustomer, {
+      Sent: status,
+    });
   };
 
   let handleSubmit = (e) => {
     e.preventDefault();
-    // find unique codes in one of the tables
-    let uniqueCodeFound2016 = OPP16UC.find(
+    // check to find if the unique code is used or new in firebase
+    let foundInCustomerData = customerData.find(
       (o) => o.UniqueCode === e.target[1].value
     );
-    let uniqueCodeFound2019 = OPP19UC.find(
+    let foundunique2016 = OPP16UC.find(
       (o) => o.UniqueCode === e.target[1].value
     );
-
-    // check in which table the unique code was found and pass correct arguments.
-    if (uniqueCodeFound2016) {
-      UniqueCodeLogic(e, uniqueCodeFound2016, "2016", OPP16PK);
-    } else if (uniqueCodeFound2019) {
-      UniqueCodeLogic(e, uniqueCodeFound2019, "2019", OPP19PK);
+    let foundunique2019 = OPP19UC.find(
+      (o) => o.UniqueCode === e.target[1].value
+    );
+    if (foundInCustomerData) {
+      existingCustomer(foundInCustomerData, enteredEmail);
+    } else if (foundunique2016) {
+      newCustomer(foundunique2016, "2016", OPP16PK);
+    } else if (foundunique2019) {
+      newCustomer(foundunique2019, "2019", OPP19PK);
     } else {
-      setMessage("Invalid Unique code");
+      setMessage("no found");
     }
   };
 
-  useEffect(() => {
-    //  runs if foundUniqueCode is true and active product key is available
-    // when user enteres the code for the first time.
-    if (foundUniqueCode && activeProductKey.length > 0) {
-      async function addToCustomerDataTable(status) {
-        await addDoc(collection(db, "Customer data"), {
-          Email: enteredEmail,
-          Name: enteredName,
-          ProductKey: activeProductKey,
-          Time: new Date(),
-          UniqueCode: enteredUniqueCode,
-          Year: whichLicense,
-          Sent: status,
-        });
-        const refuc = doc(
-          db,
-          `Unique code ${whichLicense}`,
-          activeUniqueCodeID
-        );
-        await updateDoc(refuc, {
-          Status: false,
-        });
-        const refpk = doc(
-          db,
-          `Product key ${whichLicense}`,
-          activeProductKeyID
-        );
-        await updateDoc(refpk, {
-          Status: false,
-        });
-      }
+  // Updated uc & pk status, adds cd, navigates to pk page and emails
+  let newCustomer = async (foundUnique, year, pkData) => {
+    let activeProductKey = pkData
+      .slice()
+      .reverse()
+      .find((obj) => obj.Status === "Active");
+    if (activeProductKey) {
+      const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
+      await updateDoc(refuc, {
+        Status: false,
+      });
+      const refpk = doc(db, `Product key ${year}`, activeProductKey.id);
+      await updateDoc(refpk, {
+        Status: false,
+      });
+      let newCustomerRef = await addDoc(collection(db, "Customer data"), {
+        Email: enteredEmail,
+        Name: enteredName,
+        ProductKey: activeProductKey.ProductKey,
+        Time: new Date(),
+        UniqueCode: enteredUniqueCode,
+        Year: year,
+      });
       navigate("/authorized", {
         state: {
-          productKey: activeProductKey,
+          productKey: activeProductKey.ProductKey,
           auth: true,
-          software: whichLicense,
+          software: year,
           email: enteredEmail,
           uniqueCode: enteredUniqueCode,
         },
       });
-      setTimeout(() => {
-        let status = emailStatus === true ? "Sent" : "Not Sent";
-        addToCustomerDataTable(status);
-      }, 1500);
+      sendEmail(enteredEmail, enteredName, enteredUniqueCode, newCustomerRef);
+    } else {
+      setMessage("maintenance");
     }
-  }, [foundUniqueCode, activeProductKey]);
-  // helper function to update doc when inactive unique code is entered.
-  let UpdateExisting = (cd) => {
-    sendEmail(
-      enteredEmail,
-      enteredName,
-      enteredUniqueCode,
-      cd.ProductKey,
-      whichLicense
-    );
+  };
 
-    // setting timeout to wait for emailSent to be assigned from async function
-    const refcd = doc(db, "Customer data", cd.id);
-    setTimeout(async () => {
-      let status = emailSent === true ? "Sent" : "Not Sent";
-      await updateDoc(refcd, {
-        Email: enteredEmail,
-        Name: enteredName,
-        UniqueCode: enteredUniqueCode,
-        Sent: status,
-      });
-    }, 1000);
+  let existingCustomer = async (foundCustomer) => {
+    navigate("/authorized", {
+      state: {
+        productKey: foundCustomer.ProductKey,
+        auth: true,
+        software: foundCustomer.Year,
+        email: enteredEmail,
+        uniqueCode: enteredUniqueCode,
+      },
+    });
+    const refcd = doc(db, "Customer data", foundCustomer.id);
+    await updateDoc(refcd, {
+      Email: enteredEmail,
+      Name: enteredName,
+      UniqueCode: enteredUniqueCode,
+    });
+
+    sendEmail(enteredEmail, enteredName, enteredUniqueCode, refcd);
   };
 
   return (

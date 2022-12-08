@@ -19,7 +19,8 @@ function CustomerDataTable() {
       name: "Name",
       selector: (row) => row.Name,
       sortable: true,
-      maxWidth: "100px",
+      maxWidth: "70px",
+      minWidth: "100px",
     },
     {
       name: "Email",
@@ -27,10 +28,24 @@ function CustomerDataTable() {
       sortable: true,
     },
     {
-      name: "Sent",
+      name: "Status",
       selector: (row) => row.Sent,
       sortable: true,
       maxWidth: "50px",
+      conditionalCellStyles: [
+        {
+          when: (row) => row.Sent === "Sent",
+          style: {
+            color: "green",
+          },
+        },
+        {
+          when: (row) => row.Sent === "Failed",
+          style: {
+            color: "red",
+          },
+        },
+      ],
     },
     {
       name: "Year",
@@ -58,9 +73,10 @@ function CustomerDataTable() {
     {
       name: "Resend",
       maxWidth: "70px",
-      minWidth: "120px",
-      textAlign: "center",
-
+      minWidth: "80px",
+      style: {
+        justifyContent: "end",
+      },
       cell: (row) => (
         <>
           <Button
@@ -124,7 +140,12 @@ function CustomerDataTable() {
       <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>
         Customers data
       </h1>
-      <Table data={customerData} columns={customerDataColumn} columnId={6} />
+      <Table
+        data={customerData}
+        columns={customerDataColumn}
+        columnId={7}
+        selectable={false}
+      />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit & resend email</Modal.Title>

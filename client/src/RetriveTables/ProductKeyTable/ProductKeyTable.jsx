@@ -1,18 +1,12 @@
 import { db } from "../../firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-} from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Table from "../../components/Table/Table";
 import AddManually from "../AddManually";
 import { Alert, Button, Form, Modal } from "react-bootstrap";
 
 import GetProductKeysData from "../../api/GetProductKeysData";
+import { useLocation } from "react-router-dom";
 
 function ProductKeyTable(props) {
   const getAllPK = GetProductKeysData(props.table);
@@ -116,6 +110,7 @@ function ProductKeyTable(props) {
         <h1 style={{ fontSize: "1.5rem" }}>{props.title}</h1>
         <div className='d-flex justify-content-between align-items-center '>
           <AddManually name={"Product Key"} />
+          <div className='uploaded'></div>
           <div className='d-flex'>
             <div style={{ marginRight: "10px" }} className='text-success'>
               Active: {PK.filter((obj) => obj.Status === "Active").length}

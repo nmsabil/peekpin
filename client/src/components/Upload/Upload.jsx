@@ -5,12 +5,12 @@ import { db } from "../../firebase";
 import { collection, addDoc, writeBatch, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { Alert } from "react-bootstrap";
 
 function Upload(props) {
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
-  const [uploaded, setUploaded] = useState(false);
-  const fileReader = new FileReader();
+  const [message, setMessage] = useState("");
 
   const UploadProductKeyManually = async (which, url) => {
     let arrayBatch = [];
@@ -24,26 +24,41 @@ function Upload(props) {
     const batch = writeBatch(db);
     arrayBatch.forEach((item) => {
       // Creates a DocRef with random ID
-      const docRef = doc(collection(db, `Product key ${which}`));
+      const docRef = doc(collection(db, which));
       batch.set(docRef, item);
     });
-    await batch.commit();
-    // navigate to the url after batch.commit
-    // navigate(url);
+    if (arrayBatch.length > 0) {
+      await batch.commit().then(
+        setMessage(`${arrayBatch.length} product keys uploaded`),
+        setTimeout(() => {
+          navigate(url);
+        }, 1500)
+      );
+    }
   };
 
   const UploadUniqueCodeManually = async (which, url) => {
-    for (var key of array) {
-      await addDoc(collection(db, which), {
-        UniqueCode: key,
+    let arrayBatch = [];
+    for (var each of array) {
+      arrayBatch.push({
+        UniqueCode: each,
         UploadDate: new Date(),
         Status: true,
       });
-      setUploaded(true);
-      setTimeout(() => {
-        setUploaded(false);
-      }, 1000);
-      navigate(url);
+    }
+    const batch = writeBatch(db);
+    arrayBatch.forEach((item) => {
+      // Creates a DocRef with random ID
+      const docRef = doc(collection(db, which));
+      batch.set(docRef, item);
+    });
+    if (arrayBatch.length > 0) {
+      await batch.commit().then(
+        setMessage(`${arrayBatch.length} unique codes uploaded`),
+        setTimeout(() => {
+          navigate(url);
+        }, 1500)
+      );
     }
   };
 
@@ -96,6 +111,7 @@ function Upload(props) {
   return (
     <div className='upload'>
       <h1 className='mt-5 mb-3'>{props.title}</h1>
+      {message ? <Alert variant='success'>{message}</Alert> : ""}
       <Form id='upload-form' onSubmit={formHandler} className='form'>
         <Form.Group className='mb-3'>
           <Form.Control
@@ -112,8 +128,6 @@ function Upload(props) {
       </Form>
 
       <br />
-
-      <h1>{uploaded ? "Uploaded" : ""}</h1>
     </div>
   );
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
 import Loader from "../Loader.jxs/Loader";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Button } from "react-bootstrap";
-import { deleteDoc, doc, writeBatch } from "firebase/firestore";
+import { doc, writeBatch } from "firebase/firestore";
 import { db } from "../../firebase";
 
 function Table(props) {
@@ -13,12 +13,13 @@ function Table(props) {
   const [selectedRows, setSelectedRows] = React.useState(false);
   const [showDelete, setShowDelete] = React.useState(false);
 
-  const handleChange = ({ selectedRows, allSelected, selectedCount }) => {
-    console.log(allSelected, selectedCount);
+  // selected rows and show the delete button
+  const handleChange = ({ selectedRows }) => {
     setSelectedRows(selectedRows);
     selectedRows.length >= 1 ? setShowDelete(true) : setShowDelete(false);
   };
 
+  // delete selected rows rows in batch from db
   const deleteSelectedHelper = async (which) => {
     let selectedRowsIdtoDelete = [];
     for (var selected of selectedRows) {
@@ -33,6 +34,7 @@ function Table(props) {
     setShowDelete(false);
   };
 
+  // run function based on the page with different args
   const handleSelectedDelete = async () => {
     if (window.location.pathname === "/admin/product_keys/pp2016") {
       deleteSelectedHelper("Product key 2016");
@@ -47,7 +49,8 @@ function Table(props) {
     }
   };
 
-  React.useEffect(
+  useEffect(
+    // run automatically and set pending to false when data is available
     () => {
       const timeout = setTimeout(() => {
         setRows(data);

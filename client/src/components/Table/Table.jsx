@@ -13,7 +13,8 @@ function Table(props) {
   const [selectedRows, setSelectedRows] = React.useState(false);
   const [showDelete, setShowDelete] = React.useState(false);
 
-  const handleChange = ({ selectedRows }) => {
+  const handleChange = ({ selectedRows, allSelected, selectedCount }) => {
+    console.log(allSelected, selectedCount);
     setSelectedRows(selectedRows);
     selectedRows.length >= 1 ? setShowDelete(true) : setShowDelete(false);
   };
@@ -90,8 +91,10 @@ function Table(props) {
           data={data}
           pagination
           selectableRows={true}
+          selectableRowsVisibleOnly
           // selectableRows={props.selectable === false ? false : true}
           progressPending={pending}
+          paginationRowsPerPageOptions={[15, 50, 100, 500, 1000]}
           onSelectedRowsChange={handleChange}
           progressComponent={<Loader />}
           defaultSortFieldId={props.columnId}

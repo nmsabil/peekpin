@@ -29,7 +29,7 @@ function Upload(props) {
     });
     if (arrayBatch.length > 0) {
       await batch.commit().then(
-        setMessage(`${arrayBatch.length} product keys uploaded`),
+        setMessage(`Uploaded ${arrayBatch.length} product keys for ${which}`),
         setTimeout(() => {
           navigate(url);
         }, 1500)
@@ -54,7 +54,7 @@ function Upload(props) {
     });
     if (arrayBatch.length > 0) {
       await batch.commit().then(
-        setMessage(`${arrayBatch.length} unique codes uploaded`),
+        setMessage(`Uploaded ${arrayBatch.length} unique codes for ${which}`),
         setTimeout(() => {
           navigate(url);
         }, 1500)

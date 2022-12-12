@@ -24,7 +24,12 @@ function GetCustomerData() {
           });
         });
       });
-      setCustomerData(customerDataA);
+      const sortedDsc = customerDataA.sort(
+        (objA, objB) =>
+          Number(objB.Time.seconds * 1000 + objB.Time.nanoseconds / 1000000) -
+          Number(objA.Time.seconds * 1000 + objA.Time.nanoseconds / 1000000)
+      );
+      setCustomerData(sortedDsc);
     });
     return () => unsub();
   }, []);

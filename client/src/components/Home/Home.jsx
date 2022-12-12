@@ -138,6 +138,7 @@ function Home() {
       Email: enteredEmail,
       Name: enteredName,
       UniqueCode: enteredUniqueCode,
+      Time: new Date(),
     });
 
     sendEmail(enteredEmail, enteredName, enteredUniqueCode, refcd);

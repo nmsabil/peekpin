@@ -26,7 +26,18 @@ function GetUniqueCodesData(which) {
           });
         });
       });
-      setAllUC(UC);
+      const sortedDsc = UC.sort(
+        (objA, objB) =>
+          Number(
+            objB.UploadDate.seconds * 1000 +
+              objB.UploadDate.nanoseconds / 1000000
+          ) -
+          Number(
+            objA.UploadDate.seconds * 1000 +
+              objA.UploadDate.nanoseconds / 1000000
+          )
+      );
+      setAllUC(sortedDsc);
     });
     return () => unsub();
   }, []);

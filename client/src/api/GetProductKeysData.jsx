@@ -4,7 +4,9 @@ import { db } from "../firebase";
 
 function GetProductKeysData(which) {
   const [AllKeys, setAllKeys] = useState([]);
+
   useEffect(() => {
+    console.log(AllKeys);
     const q = query(collection(db, which));
     const unsub = onSnapshot(q, (querySnapshot) => {
       let PK = [];
@@ -26,7 +28,18 @@ function GetProductKeysData(which) {
           });
         });
       });
-      setAllKeys(PK);
+      const sortedDsc = PK.sort(
+        (objA, objB) =>
+          Number(
+            objB.UploadDate.seconds * 1000 +
+              objB.UploadDate.nanoseconds / 1000000
+          ) -
+          Number(
+            objA.UploadDate.seconds * 1000 +
+              objA.UploadDate.nanoseconds / 1000000
+          )
+      );
+      setAllKeys(sortedDsc);
     });
     return () => unsub();
   }, []);

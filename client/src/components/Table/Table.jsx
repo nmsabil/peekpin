@@ -100,7 +100,7 @@ function Table(props) {
           paginationRowsPerPageOptions={[15, 50, 100, 500, 1000]}
           onSelectedRowsChange={handleChange}
           progressComponent={<Loader />}
-          defaultSortFieldId={props.columnId}
+          // defaultSortFieldId={props.columnId}
           defaultSortAsc={false}
         />
       </DataTableExtensions>

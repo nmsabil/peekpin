@@ -81,6 +81,19 @@ function Navigation() {
               </NavDropdown.Item>
               <NavDropdown.Item to='#action4'>PP 2021</NavDropdown.Item>
             </NavDropdown>
+            <NavDropdown title='Success Template' id='navbarScrollingDropdown'>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/template/pp2016'>
+                  PP 2016
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/template/pp2019'>
+                  PP 2019
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item to='#action4'>PP 2021</NavDropdown.Item>
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

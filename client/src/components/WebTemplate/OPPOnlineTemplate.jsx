@@ -11,7 +11,6 @@ function OPP2016Template() {
     <div className='templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '>
       <div className='template'>
         <div className='product-key px-5 py-5 text-dark rounded text-center'>
-          <h1>{status}</h1>
           <a href=''>
             <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
           </a>
@@ -23,20 +22,26 @@ function OPP2016Template() {
               value={productKey}
             />
           </h3>
-          <h5 className='mt-5 text-left'>Download Steps:</h5>
-          <ol className=' instructions'>
-            <li>
-              Go to <a href='setup.office.com'>setup.office.com</a>{" "}
-            </li>
-            <li>Create/login to your Microsoft Account</li>
-            <li>Enter your Product key</li>
-            <li>Select Country & Language Begin Download</li>
-            <li>Run downloaded setup to install</li>
-          </ol>
-          <p className='mt-5'>
-            A copy of the product key and download intructions is also be sent
-            to {email}
-          </p>
+          {software === "2021" ? (
+            "2021"
+          ) : (
+            <div className='instruct'>
+              <h5 className='mt-5 text-left'>Download Steps:</h5>
+              <ol className=' instructions'>
+                <li>
+                  Go to <a href='setup.office.com'>setup.office.com</a>{" "}
+                </li>
+                <li>Create/login to your Microsoft Account</li>
+                <li>Enter your Product key</li>
+                <li>Select Country & Language Begin Download</li>
+                <li>Run downloaded setup to install</li>
+              </ol>
+              <p className='mt-5'>
+                A copy of the product key and download intructions is also be
+                sent to {email}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

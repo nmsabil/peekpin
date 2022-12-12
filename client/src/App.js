@@ -12,6 +12,7 @@ import UniqueCodeTable from "./RetriveTables/UniqueCodeTable/UniqueCodeTable";
 import ProductKeyTable from "./RetriveTables/ProductKeyTable/ProductKeyTable";
 import OOPP2016Template from "./components/WebTemplate/OPPOnlineTemplate";
 import Upload from "./components/Upload/Upload";
+import EditWebTemplate from "./components/EditWebTemplate/EditWebTemplate";
 
 function App() {
   return (
@@ -125,7 +126,6 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
-
                   <Route
                     path='/admin/keys2021'
                     element={
@@ -133,6 +133,30 @@ function App() {
                         <Navigation />
                         <UniqueCodeTable
                           year={"Unique code 2016"}
+                          version={"Pro Plus"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/template/pp2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <EditWebTemplate
+                          title={"Edit office pro plus 2016 web template"}
+                          version={"Pro Plus"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />{" "}
+                  <Route
+                    path='/admin/template/pp2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <EditWebTemplate
+                          title={"Edit office pro plus 2019 web template"}
                           version={"Pro Plus"}
                         />
                       </ProtectedRoute>

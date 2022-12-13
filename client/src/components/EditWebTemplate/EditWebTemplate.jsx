@@ -25,13 +25,13 @@ function EditWebTemplate(props) {
       querySnapshot.forEach((doc) => {
         if (
           props.version === "pro plus 2016" &&
-          doc.data().software === "2016"
+          doc.data().software === "Pro Plus 2016"
         ) {
           setWhich(doc);
           setValue(doc.data().html);
         } else if (
           props.version === "pro plus 2019" &&
-          doc.data().software === "2019"
+          doc.data().software === "Pro Plus 2019"
         ) {
           setWhich(doc);
           setValue(doc.data().html);
@@ -110,7 +110,7 @@ function EditWebTemplate(props) {
         style={{ height: "auto" }}
         className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
       >
-        <p>Live preview</p>
+        <p>Edit yellow area text above</p>
         <div className='template'>
           <div className='product-key px-5 py-5 text-dark rounded text-center'>
             <a href=''>
@@ -120,8 +120,8 @@ function EditWebTemplate(props) {
                 className='logo mb-5 w-50'
               />
             </a>
-            <h5 className='text-left'> Product key:</h5>
-            <h3 className='mb-0'>
+            <h2 className='text-left'> Product key:</h2>
+            <h3 className=''>
               <Form.Control
                 disabled
                 className='inputToDisplayLicense'
@@ -130,14 +130,8 @@ function EditWebTemplate(props) {
               />
             </h3>
 
-            <div className='instruct'>
-              <h5 className='mt-5 text-left'>Download Steps:</h5>
+            <div className='instruct' style={{ border: "5px solid yellow" }}>
               <div className='text-left'>{value ? parse(value) : ""}</div>
-
-              <p className='mt-5'>
-                A copy of the product key and download intructions is also be
-                sent to example@softwarepin.com
-              </p>
             </div>
           </div>
         </div>

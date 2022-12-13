@@ -6,7 +6,6 @@ function GetProductKeysData(which) {
   const [AllKeys, setAllKeys] = useState([]);
 
   useEffect(() => {
-    console.log(AllKeys);
     const q = query(collection(db, which));
     const unsub = onSnapshot(q, (querySnapshot) => {
       let PK = [];

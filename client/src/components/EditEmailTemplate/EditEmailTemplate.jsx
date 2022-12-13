@@ -14,13 +14,13 @@ import { db } from "../../firebase";
 import logo from "../../images/logo-transperant.png";
 import parse from "html-react-parser";
 
-function EditWebTemplate(props) {
+function EditEmailTemplate(props) {
   const [value, setValue] = useState("");
   const [which, setWhich] = useState("");
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
-    const q = query(collection(db, "Web Templates"));
+    const q = query(collection(db, "Email Templates"));
     const unsub = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (
@@ -42,7 +42,7 @@ function EditWebTemplate(props) {
   }, [props.version]);
 
   const handleSubmit = async () => {
-    const refcd = doc(db, "Web Templates", which.id);
+    const refcd = doc(db, "Email Templates", which.id);
     await updateDoc(refcd, {
       html: value,
     }).then(setUpdated(true));
@@ -109,41 +109,9 @@ function EditWebTemplate(props) {
       <div
         style={{ height: "auto" }}
         className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
-      >
-        <p>Live preview</p>
-        <div className='template'>
-          <div className='product-key px-5 py-5 text-dark rounded text-center'>
-            <a href=''>
-              <img
-                src={logo}
-                alt='Displaypin logo'
-                className='logo mb-5 w-50'
-              />
-            </a>
-            <h5 className='text-left'> Product key:</h5>
-            <h3 className='mb-0'>
-              <Form.Control
-                disabled
-                className='inputToDisplayLicense'
-                value='KNX9D-HQP76-28JFD-CQJ96-CG34X'
-                style={{ cursor: "text" }}
-              />
-            </h3>
-
-            <div className='instruct'>
-              <h5 className='mt-5 text-left'>Download Steps:</h5>
-              <div className='text-left'>{value ? parse(value) : ""}</div>
-
-              <p className='mt-5'>
-                A copy of the product key and download intructions is also be
-                sent to example@softwarepin.com
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      ></div>
     </div>
   );
 }
 
-export default EditWebTemplate;
+export default EditEmailTemplate;

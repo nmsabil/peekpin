@@ -48,10 +48,10 @@ function CustomerDataTable() {
       ],
     },
     {
-      name: "Year",
+      name: "Version",
       selector: (row) => row.Year,
       sortable: true,
-      maxWidth: "70px",
+      maxWidth: "120px",
     },
     {
       name: "Product Key",

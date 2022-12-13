@@ -3,12 +3,11 @@
 @import "./components/AdminLogin/AdminLogin.scss";
 @import "./components/Table/Table.scss";
 @import "./components/WebTemplate/templateStyle.scss";
+@import "./components/EditEmailTemplate/EditEmailTemplate.scss";
 .App {
   background-color: #d7d3d3;
   height: 100%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  top: 0;
+}
+html {
+  background-color: #d7d3d3;
 }

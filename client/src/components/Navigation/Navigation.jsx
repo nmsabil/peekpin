@@ -15,7 +15,7 @@ function Navigation() {
             <Nav.Link as={Link} to='/admin'>
               Customer Data
             </Nav.Link>
-            <NavDropdown title='Product Keys' id='navbarScrollingDropdown'>
+            <NavDropdown title='PK' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/product_keys/pp2016'>
                   PP 2016
@@ -33,7 +33,7 @@ function Navigation() {
               </NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown title='Unique Codes' id='navbarScrollingDropdown'>
+            <NavDropdown title='UC' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/unique_codes/pp2016'>
                   PP 2016
@@ -47,10 +47,7 @@ function Navigation() {
               <NavDropdown.Item to='/uniquecode2021'>PP 2021</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown
-              title='Upload Product Keys'
-              id='navbarScrollingDropdown'
-            >
+            <NavDropdown title='Upload PK' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/upload/product_keys/pp2016'>
                   PP 2016
@@ -65,10 +62,7 @@ function Navigation() {
               <NavDropdown.Item to='/'>PP 2021</NavDropdown.Item>
             </NavDropdown>
 
-            <NavDropdown
-              title='Upload Unique Codes'
-              id='navbarScrollingDropdown'
-            >
+            <NavDropdown title='Upload UC' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/upload/unique_codes/pp2016'>
                   PP 2016
@@ -81,7 +75,7 @@ function Navigation() {
               </NavDropdown.Item>
               <NavDropdown.Item to='#action4'>PP 2021</NavDropdown.Item>
             </NavDropdown>
-            <NavDropdown title='Success Template' id='navbarScrollingDropdown'>
+            <NavDropdown title='Download Text' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/template/pp2016'>
                   PP 2016
@@ -89,6 +83,19 @@ function Navigation() {
               </NavDropdown.Item>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/template/pp2019'>
+                  PP 2019
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item to='#action4'>PP 2021</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title='Email text' id='navbarScrollingDropdown'>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/email/pp2016'>
+                  PP 2016
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/email/pp2019'>
                   PP 2019
                 </Nav.Link>
               </NavDropdown.Item>

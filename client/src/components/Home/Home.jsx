@@ -34,15 +34,17 @@ function Home() {
     enteredEmail,
     enteredName,
     enteredUniqueCode,
-    refofCustomer
+    refofCustomer,
+    productKey,
+    year
   ) => {
     const data = {
       enteredEmail,
       enteredName,
       enteredUniqueCode,
-      refofCustomer,
+      productKey,
+      year,
     };
-
     let status;
     await axios
       .post("http://localhost:5000/api/sendemail", data)
@@ -76,16 +78,16 @@ function Home() {
     if (foundInCustomerData) {
       existingCustomer(foundInCustomerData, enteredEmail);
     } else if (foundunique2016) {
-      newCustomer(foundunique2016, "2016", OPP16PK);
+      newCustomer(foundunique2016, "2016", "Pro Plus 2016", OPP16PK);
     } else if (foundunique2019) {
-      newCustomer(foundunique2019, "2019", OPP19PK);
+      newCustomer(foundunique2019, "2019", "Pro Plus 2019", OPP19PK);
     } else {
       setMessage("no found");
     }
   };
 
   // -Update uc & pk status -Adds new CD -Navigates to PK page -Send emails
-  let newCustomer = async (foundUnique, year, pkData) => {
+  let newCustomer = async (foundUnique, year, name, pkData) => {
     let activeProductKey = pkData
       .slice()
       .reverse()
@@ -105,18 +107,25 @@ function Home() {
         ProductKey: activeProductKey.ProductKey,
         Time: new Date(),
         UniqueCode: enteredUniqueCode,
-        Year: year,
+        Year: name,
       });
       navigate("/authorized", {
         state: {
           productKey: activeProductKey.ProductKey,
           auth: true,
-          software: year,
+          software: name,
           email: enteredEmail,
           uniqueCode: enteredUniqueCode,
         },
       });
-      sendEmail(enteredEmail, enteredName, enteredUniqueCode, newCustomerRef);
+      sendEmail(
+        enteredEmail,
+        enteredName,
+        enteredUniqueCode,
+        newCustomerRef,
+        activeProductKey.ProductKey,
+        name
+      );
     } else {
       setMessage("maintenance");
     }
@@ -141,7 +150,14 @@ function Home() {
       Time: new Date(),
     });
 
-    sendEmail(enteredEmail, enteredName, enteredUniqueCode, refcd);
+    sendEmail(
+      enteredEmail,
+      enteredName,
+      enteredUniqueCode,
+      refcd,
+      foundCustomer.ProductKey,
+      foundCustomer.Year
+    );
   };
 
   return (

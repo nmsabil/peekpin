@@ -13,6 +13,7 @@ import ProductKeyTable from "./RetriveTables/ProductKeyTable/ProductKeyTable";
 import OOPP2016Template from "./components/WebTemplate/OPPOnlineTemplate";
 import Upload from "./components/Upload/Upload";
 import EditWebTemplate from "./components/EditWebTemplate/EditWebTemplate";
+import EditEmailTemplate from "./components/EditEmailTemplate/EditEmailTemplate";
 
 function App() {
   return (
@@ -144,7 +145,7 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <EditWebTemplate
-                          title={"Download steps for pro plus 2016"}
+                          title={"Download steps for pro pro plus 2016"}
                           version={"pro plus 2016"}
                         />
                       </ProtectedRoute>
@@ -156,7 +157,31 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <EditWebTemplate
-                          title={"Download steps for plus 2019"}
+                          title={"Download steps for pro plus 2019"}
+                          version={"pro plus 2019"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/email/pp2016'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <EditEmailTemplate
+                          title={"Email template for pro plus 2016"}
+                          version={"pro plus 2016"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/email/pp2019'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <EditEmailTemplate
+                          title={"Email template for pro plus 2019"}
                           version={"pro plus 2019"}
                         />
                       </ProtectedRoute>

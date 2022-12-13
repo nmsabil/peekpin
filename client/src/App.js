@@ -144,20 +144,20 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <EditWebTemplate
-                          title={"Edit office pro plus 2016 web template"}
-                          version={"Pro Plus"}
+                          title={"Download steps for pro plus 2016"}
+                          version={"pro plus 2016"}
                         />
                       </ProtectedRoute>
                     }
-                  />{" "}
+                  />
                   <Route
                     path='/admin/template/pp2019'
                     element={
                       <ProtectedRoute>
                         <Navigation />
                         <EditWebTemplate
-                          title={"Edit office pro plus 2019 web template"}
-                          version={"Pro Plus"}
+                          title={"Download steps for plus 2019"}
+                          version={"pro plus 2019"}
                         />
                       </ProtectedRoute>
                     }

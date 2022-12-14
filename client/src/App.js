@@ -14,6 +14,7 @@ import OOPP2016Template from "./components/WebTemplate/OPPOnlineTemplate";
 import Upload from "./components/Upload/Upload";
 import EditWebTemplate from "./components/EditWebTemplate/EditWebTemplate";
 import EditEmailTemplate from "./components/EditEmailTemplate/EditEmailTemplate";
+import AllProducts from "./components/AllProducts/AllProducts";
 
 function App() {
   return (
@@ -32,6 +33,15 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <CustomerDataTable />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/products'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <AllProducts />
                       </ProtectedRoute>
                     }
                   />

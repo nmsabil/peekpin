@@ -36,7 +36,7 @@ function AllProducts() {
                       class='text-light'
                       to='/admin/upload/unique_codes/pp2016'
                     >
-                      Upload Unique Sodes
+                      Upload Unique Codes
                     </Link>
                   </Button>
                   <Button variant='secondary'>
@@ -86,7 +86,46 @@ function AllProducts() {
             </Card.Body>
           </Card>
         </ListGroup.Item>
-        <ListGroup.Item>Morbi leo risus</ListGroup.Item>
+        <ListGroup.Item>
+          <Card>
+            <Card.Body className='d-flex flex-row justify-content-between align-items-center'>
+              <Card.Title className='mb-0'>
+                <Link
+                  className='text-dark mb-2'
+                  to='/admin/product_keys/pp2021'
+                >
+                  Office Pro Plus 2021
+                </Link>
+              </Card.Title>
+              <div>
+                <ButtonGroup aria-label='Basic example'>
+                  <Button variant='primary'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/unique_codes/pp2021'
+                    >
+                      Upload Product Keys
+                    </Link>
+                  </Button>
+
+                  <Button variant='success'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/unique_codes/pp2021'
+                    >
+                      Upload Unique Codes
+                    </Link>
+                  </Button>
+                  <Button variant='secondary'>
+                    <Link class='text-light' to='/admin/template/pp2021'>
+                      Edit Download Steps
+                    </Link>
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </Card.Body>
+          </Card>
+        </ListGroup.Item>
         <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
         <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
       </ListGroup>

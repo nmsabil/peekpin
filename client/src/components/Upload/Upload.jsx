@@ -89,6 +89,20 @@ function Upload(props) {
         "Unique code 2019",
         "/admin/unique_codes/pp2019"
       );
+    } else if (
+      window.location.pathname === "/admin/upload/product_keys/pp2021"
+    ) {
+      UploadProductKeyManually(
+        "Product key 2021",
+        "/admin/product_keys/pp2021"
+      );
+    } else if (
+      window.location.pathname === "/admin/upload/unique_codes/pp2021"
+    ) {
+      UploadUniqueCodeManually(
+        "Unique code 2021",
+        "/admin/unique_codes/pp2021"
+      );
     }
   };
 

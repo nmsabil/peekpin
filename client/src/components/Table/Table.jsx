@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import DataTable from "react-data-table-component";
-import Loader from "../Loader.jxs/Loader";
+import Loader from "../Loader/Loader";
 import DataTableExtensions from "react-data-table-component-extensions";
 import { Button } from "react-bootstrap";
 import { doc, writeBatch } from "firebase/firestore";
@@ -52,11 +52,8 @@ function Table(props) {
   useEffect(
     // run automatically and set pending to false when data is available
     () => {
-      const timeout = setTimeout(() => {
-        setRows(data);
-        setPending(false);
-      }, 700);
-      return () => clearTimeout(timeout);
+      setRows(data);
+      setPending(false);
     },
     [],
     dataObject

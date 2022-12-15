@@ -1,4 +1,7 @@
 .templateStyle {
+  .template {
+    min-width: 80vw;
+  }
   height: 100vh;
   min-width: 100%;
   .inputToDisplayLicense,
@@ -27,5 +30,8 @@
   }
   .logo-link {
     color: white;
+  }
+  .logo {
+    max-width: 300px;
   }
 }

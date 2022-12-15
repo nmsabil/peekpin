@@ -129,7 +129,7 @@ td .download-steps h1{
                       <td class="es-m-txt-l" align="left" style="padding:0;Margin:0;padding-top:20px"><h3 style="Margin-bottom: 10px;line-height:19px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#333333;text-align:left">Hello ${enteredName}</h3><h3 style="Margin:0;line-height:19px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:16px;font-style:normal;font-weight:bold;color:#333333;text-align:left"></h3></td>
                      </tr>
                      <tr style="border-collapse:collapse">
-                      <td align="left" style="padding:0;Margin:0;padding-bottom:15px"><h2 style="Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#333333;text-align:left"><strong>Office Pro Plus 2016</strong></h2></td>
+                      <td align="left" style="padding:0;Margin:0;padding-bottom:15px"><h2 style="Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#333333;text-align:left"><strong>Office ${year}</strong></h2></td>
                      </tr>
                      <tr style="border-collapse:collapse">
                       <td align="left" bgcolor="#044767" style="padding:15px;Margin:0"><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>Product key:</strong></h2><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>${productKey}</strong></h2></td>
@@ -209,7 +209,7 @@ td .download-steps h1{
     const send_to = enteredEmail;
     const sent_from = process.env.EMAIL_USER;
     const reply_to = enteredEmail;
-    const subject = `SoftwarePin - Office ${year}`;
+    const subject = `Office ${year} delivery`;
     const message = data;
 
     await sendEmail(subject, message, send_to, sent_from, reply_to);

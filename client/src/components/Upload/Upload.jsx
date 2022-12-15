@@ -110,7 +110,9 @@ function Upload(props) {
 
   return (
     <div className='upload'>
-      <h1 className='mt-5 mb-3'>{props.title}</h1>
+      <h1 style={{ fontSize: "1.5rem" }} className='mt-5 mb-3'>
+        {props.title}
+      </h1>
       {message ? <Alert variant='success'>{message}</Alert> : ""}
       <Form id='upload-form' onSubmit={formHandler} className='form'>
         <Form.Group className='mb-3'>

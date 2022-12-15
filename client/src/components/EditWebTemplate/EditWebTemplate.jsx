@@ -14,6 +14,7 @@ import { db } from "../../firebase";
 import logo from "../../images/logo-transperant.png";
 import parse from "html-react-parser";
 import SuccessBlock from "../SuccessBlock/SuccessBlock";
+import Loader from "../Loader/Loader";
 
 function EditWebTemplate(props) {
   const [value, setValue] = useState("");
@@ -95,30 +96,37 @@ function EditWebTemplate(props) {
         ) : (
           ""
         )}
-        <ReactQuill
-          className='bg-white'
-          theme='snow'
-          value={value}
-          onChange={setValue}
-          modules={modules}
-          formats={formats}
-        />
-        <Button onClick={handleSubmit} variant='primary w-100' type='submit'>
-          Update
-        </Button>
       </div>
-      <div
-        style={{ height: "auto" }}
-        className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
-      >
-        <p>Edit yellow area text above</p>
-        <SuccessBlock
-          software='Pro Plus 2016'
-          productKey='839'
-          email='example@softwarepin.com'
-          value={value}
-        />
-      </div>
+      {value ? (
+        <div>
+          <ReactQuill
+            className='bg-white'
+            theme='snow'
+            value={value}
+            onChange={setValue}
+            modules={modules}
+            formats={formats}
+          />
+          <Button onClick={handleSubmit} variant='primary w-100' type='submit'>
+            Update
+          </Button>
+
+          <div
+            style={{ height: "auto" }}
+            className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
+          >
+            <p>Edit yellow area text above</p>
+            <SuccessBlock
+              software='Pro Plus 2016'
+              productKey='839'
+              email='example@softwarepin.com'
+              value={value}
+            />
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }

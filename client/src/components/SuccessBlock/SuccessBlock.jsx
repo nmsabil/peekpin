@@ -27,6 +27,10 @@ function SuccessBlock(props) {
             {props.value ? parse(props.value) : ""}
           </div>
         </div>
+        <p className='text-left mt-5'>
+          The product key and download intructions have also been sent to{" "}
+          {props.email}
+        </p>
       </div>
     </div>
   );

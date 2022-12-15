@@ -13,6 +13,7 @@ import "react-quill/dist/quill.snow.css";
 import { db } from "../../firebase";
 import logo from "../../images/logo-transperant.png";
 import parse from "html-react-parser";
+import SuccessBlock from "../SuccessBlock/SuccessBlock";
 
 function EditWebTemplate(props) {
   const [value, setValue] = useState("");
@@ -111,30 +112,12 @@ function EditWebTemplate(props) {
         className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
       >
         <p>Edit yellow area text above</p>
-        <div className='template'>
-          <div className='product-key px-5 py-5 text-dark rounded text-center'>
-            <a href=''>
-              <img
-                src={logo}
-                alt='Displaypin logo'
-                className='logo mb-5 w-50'
-              />
-            </a>
-            <h2 className='text-left'> Product key:</h2>
-            <h3 className=''>
-              <Form.Control
-                disabled
-                className='inputToDisplayLicense'
-                value='KNX9D-HQP76-28JFD-CQJ96-CG34X'
-                style={{ cursor: "text" }}
-              />
-            </h3>
-
-            <div className='instruct' style={{ border: "5px solid yellow" }}>
-              <div className='text-left'>{value ? parse(value) : ""}</div>
-            </div>
-          </div>
-        </div>
+        <SuccessBlock
+          software='Pro Plus 2016'
+          productKey='839'
+          email='example@softwarepin.com'
+          value={value}
+        />
       </div>
     </div>
   );

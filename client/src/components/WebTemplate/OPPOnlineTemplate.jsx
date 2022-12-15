@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import logo from "../../images/logo-transperant.png";
-import Form from "react-bootstrap/Form";
+
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "../../firebase";
-import parse from "html-react-parser";
+
+import SuccessBlock from "../SuccessBlock/SuccessBlock";
 
 function OPP2016Template() {
   const { state } = useLocation();
@@ -33,36 +33,12 @@ function OPP2016Template() {
 
   return (
     <div className='templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '>
-      <div className='template'>
-        <div className='product-key px-5 py-5 text-dark rounded text-center'>
-          <a href=''>
-            <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
-          </a>
-
-          <h2 className='text-left'> Product key for Office {software}:</h2>
-          <h3
-            className='mb-0'
-            onClick={() => navigator.clipboard.writeText(productKey)}
-          >
-            <Form.Control
-              disabled
-              style={{ cursor: "text" }}
-              className='inputToDisplayLicense'
-              value={productKey}
-            />
-          </h3>
-          <div className='instruct'>
-            <div className='text-left'>{value ? parse(value) : ""}</div>
-
-            <p className='mt-5 text-left'>
-              A copy of the product key and download intructions is successfully
-              sent to {email}
-              <br />
-              {/* <p className='text-center mt-5'>Unique code used: {uniqueCode}</p> */}
-            </p>
-          </div>
-        </div>
-      </div>
+      <SuccessBlock
+        software={software}
+        productKey={productKey}
+        email={email}
+        value={value}
+      />
     </div>
   );
 }

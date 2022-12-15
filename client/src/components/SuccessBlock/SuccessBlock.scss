@@ -1,7 +1,11 @@
+.tooltip .tooltip-arrow {
+  display: none !important;
+}
 .templateStyle {
   .template {
     min-width: 80vw;
   }
+
   height: 100vh;
   min-width: 100%;
   .inputToDisplayLicense,
@@ -9,6 +13,17 @@
     border: 1px solid black;
     box-shadow: none;
   }
+  .copy {
+    position: relative;
+  }
+  .copy-btn {
+    position: absolute;
+    right: 1px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    top: 0;
+  }
+
   .product-key {
     background: linear-gradient(
       to right bottom,

@@ -115,7 +115,7 @@ function Home() {
     } else if (foundUCPP2021) {
       let emailHtml = "";
       emailTemplate.forEach((element) => {
-        if (element.software === "Pro Plus 2019") {
+        if (element.software === "Pro Plus 2021") {
           emailHtml = element.html;
         }
       });

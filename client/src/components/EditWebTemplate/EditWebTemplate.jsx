@@ -300,7 +300,7 @@ td .download-steps h1{
             style={{ height: "auto" }}
             className='mt-5 mb-5 templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '
           >
-            <p>Success page preview</p>
+            <p>Success preview</p>
             <SuccessBlock
               software={props.version}
               productKey='F3PNT-V9WH4-BHYTC-XD3TJ-2G34X'

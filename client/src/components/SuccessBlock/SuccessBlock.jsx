@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import parse from "html-react-parser";
+import { Button, Overlay, Tooltip } from "react-bootstrap";
 function SuccessBlock(props) {
+  const target = useRef(null);
+  const [show, setShow] = useState(false);
+
+  const copyOnClick = () => {
+    setShow(true);
+    setTimeout(() => {
+      setShow(false);
+    }, 2000);
+  };
   return (
     <div className='template'>
       <div className='product-key px-5 py-5 text-dark rounded text-center'>
@@ -15,12 +25,28 @@ function SuccessBlock(props) {
           className='mb-0'
           onClick={() => navigator.clipboard.writeText(props.productKey)}
         >
-          <Form.Control
-            disabled
-            style={{ cursor: "text" }}
-            className='inputToDisplayLicense'
-            value={props.productKey}
-          />
+          <div className='copy'>
+            <Form.Control
+              disabled
+              style={{ cursor: "text" }}
+              className='inputToDisplayLicense'
+              value={props.productKey}
+            />
+            <Button
+              className='copy-btn'
+              ref={target}
+              onClick={() => copyOnClick()}
+            >
+              Copy
+            </Button>
+            <Overlay target={target.current} show={show} placement='bottom'>
+              {(props) => (
+                <Tooltip id='overlay-example' {...props}>
+                  Copied
+                </Tooltip>
+              )}
+            </Overlay>
+          </div>
         </h3>
         <div className='instruct'>
           <div className='text-left'>

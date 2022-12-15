@@ -59,7 +59,7 @@ function Table(props) {
       const timeout = setTimeout(() => {
         setRows(data);
         setPending(false);
-      }, 200);
+      }, 600);
       return () => clearTimeout(timeout);
     },
     [],

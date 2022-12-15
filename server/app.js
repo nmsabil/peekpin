@@ -135,7 +135,7 @@ td .download-steps h1{
                       <td align="left" bgcolor="#044767" style="padding:15px;Margin:0"><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>Product key:</strong></h2><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>${productKey}</strong></h2></td>
                      </tr>
                      <tr>
-                      <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:30px;color:#333333;font-size:20px;text-align:left"><br></p>
+                      <td align="left" class="download-steps" style="padding:0;Margin:0">
                         ${emailTemplate}
                        </td>
                      </tr>

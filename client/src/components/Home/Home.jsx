@@ -27,6 +27,9 @@ function Home() {
   // Office pp 2019 data
   const OPP19UC = GetUniqueCodesData("Unique code 2019");
   const OPP19PK = GetProductKeysData("Product key 2019");
+  // Office pp 2021 data
+  const OPP21UC = GetUniqueCodesData("Unique code 2021");
+  const OPP21PK = GetProductKeysData("Product key 2021");
   // email templates
   const emailTemplate = GetEmailTemplate();
   // customer data
@@ -82,12 +85,9 @@ function Home() {
     let foundInCustomerData = customerData.find(
       (o) => o.UniqueCode === e.target[1].value
     );
-    let foundunique2016 = OPP16UC.find(
-      (o) => o.UniqueCode === e.target[1].value
-    );
-    let foundunique2019 = OPP19UC.find(
-      (o) => o.UniqueCode === e.target[1].value
-    );
+    let foundUCPP2016 = OPP16UC.find((o) => o.UniqueCode === e.target[1].value);
+    let foundUCPP2019 = OPP19UC.find((o) => o.UniqueCode === e.target[1].value);
+    let foundUCPP2021 = OPP21UC.find((o) => o.UniqueCode === e.target[1].value);
     if (foundInCustomerData) {
       let emailHtml = "";
       emailTemplate.forEach((element) => {
@@ -96,22 +96,30 @@ function Home() {
         }
       });
       existingCustomer(foundInCustomerData, emailHtml);
-    } else if (foundunique2016) {
+    } else if (foundUCPP2016) {
       let emailHtml = "";
       emailTemplate.forEach((element) => {
         if (element.software === "Pro Plus 2016") {
           emailHtml = element.html;
         }
       });
-      newCustomer(foundunique2016, "2016", "Pro Plus 2016", OPP16PK, emailHtml);
-    } else if (foundunique2019) {
+      newCustomer(foundUCPP2016, "2016", "Pro Plus 2016", OPP16PK, emailHtml);
+    } else if (foundUCPP2019) {
       let emailHtml = "";
       emailTemplate.forEach((element) => {
         if (element.software === "Pro Plus 2019") {
           emailHtml = element.html;
         }
       });
-      newCustomer(foundunique2019, "2019", "Pro Plus 2019", OPP19PK, emailHtml);
+      newCustomer(foundUCPP2019, "2019", "Pro Plus 2019", OPP19PK, emailHtml);
+    } else if (foundUCPP2021) {
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === "Pro Plus 2019") {
+          emailHtml = element.html;
+        }
+      });
+      newCustomer(foundUCPP2021, "2021", "Pro Plus 2021", OPP21PK, emailHtml);
     } else {
       setMessage("no found");
     }
@@ -139,6 +147,7 @@ function Home() {
         Time: new Date(),
         UniqueCode: enteredUniqueCode,
         Year: name,
+        template: template,
       });
       navigate("/authorized", {
         state: {
@@ -147,6 +156,7 @@ function Home() {
           software: name,
           email: enteredEmail,
           uniqueCode: enteredUniqueCode,
+          template: template,
         },
       });
 
@@ -173,6 +183,7 @@ function Home() {
         software: foundCustomer.Year,
         email: enteredEmail,
         uniqueCode: enteredUniqueCode,
+        template: template,
       },
     });
     const refcd = doc(db, "Customer data", foundCustomer.id);

@@ -44,6 +44,10 @@ function Table(props) {
       deleteSelectedHelper("Product key 2019");
     } else if (window.location.pathname === "/admin/unique_codes/pp2019") {
       deleteSelectedHelper("Unique code 2019");
+    } else if (window.location.pathname === "/admin/product_keys/pp2021") {
+      deleteSelectedHelper("Product key 2021");
+    } else if (window.location.pathname === "/admin/unique_codes/pp2021") {
+      deleteSelectedHelper("Unique code 2021");
     } else if (window.location.pathname === "/admin") {
       deleteSelectedHelper("Customer data");
     }
@@ -52,8 +56,11 @@ function Table(props) {
   useEffect(
     // run automatically and set pending to false when data is available
     () => {
-      setRows(data);
-      setPending(false);
+      const timeout = setTimeout(() => {
+        setRows(data);
+        setPending(false);
+      }, 200);
+      return () => clearTimeout(timeout);
     },
     [],
     dataObject

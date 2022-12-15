@@ -25,6 +25,13 @@
       color: #14d101;
     }
   }
+  .instruct a {
+    color: #ed8e20;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
   .text-left {
     text-align: left;
   }

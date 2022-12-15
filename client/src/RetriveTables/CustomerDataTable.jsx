@@ -5,6 +5,7 @@ import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import axios from "axios";
+import GetEmailTemplate from "../api/GetEmailTemplate";
 
 function CustomerDataTable() {
   const customerData = GetCustomerData();
@@ -96,18 +97,34 @@ function CustomerDataTable() {
     enteredEmail,
     enteredName,
     enteredUniqueCode,
-    activeProductKey,
-    whichLicenseState
+    productKey,
+    refofCustomer,
+    year,
+    emailTemplate
   ) => {
     const data = {
       enteredEmail,
       enteredName,
       enteredUniqueCode,
-      activeProductKey,
-      whichLicenseState,
+      productKey,
+      year,
+      emailTemplate,
     };
+    let status;
+    await axios
+      .post("http://localhost:5000/api/sendemail", data)
+      .then((res) => {
+        if (res.status === 200) {
+          status = "Sent";
+        }
+      })
+      .catch((err) => {
+        status = "Failed";
+      });
 
-    await axios.post("http://localhost:5000/api/sendemail", data);
+    await updateDoc(refofCustomer, {
+      Sent: status,
+    });
   };
 
   const openModal = (row) => {
@@ -130,7 +147,9 @@ function CustomerDataTable() {
       clickedRow.Name,
       clickedRow.UniqueCode,
       clickedRow.ProductKey,
-      clickedRow.year
+      ref,
+      clickedRow.Year,
+      clickedRow.template
     );
   };
 

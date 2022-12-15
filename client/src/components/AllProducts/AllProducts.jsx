@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, ListGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Card, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function AllProducts() {
@@ -13,32 +13,38 @@ function AllProducts() {
           <Card>
             <Card.Body className='d-flex flex-row justify-content-between align-items-center'>
               <Card.Title className='mb-0'>
-                <Link className='text-dark' to='/admin/product_keys/pp2016'>
+                <Link
+                  className='text-dark mb-2'
+                  to='/admin/product_keys/pp2016'
+                >
                   Office Pro Plus 2016
                 </Link>
               </Card.Title>
               <div>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/upload/product_keys/pp2016'
-                >
-                  <Button variant='dark'>Upload Product Keys</Button>
-                </Link>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/upload/unique_codes/pp2016'
-                >
-                  <Button variant='dark'>Upload Unique Codes</Button>
-                </Link>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/template/pp2016'
-                >
-                  <Button variant='dark'>Update Success text</Button>
-                </Link>
-                <Link style={{ marginRight: "5px" }} to='/admin/email/pp2016'>
-                  <Button variant='dark'>Update Email text</Button>
-                </Link>
+                <ButtonGroup aria-label='Basic example'>
+                  <Button variant='primary'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/unique_codes/pp2016'
+                    >
+                      Upload Product Keys
+                    </Link>
+                  </Button>
+
+                  <Button variant='success'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/unique_codes/pp2016'
+                    >
+                      Upload Unique Sodes
+                    </Link>
+                  </Button>
+                  <Button variant='secondary'>
+                    <Link class='text-light' to='/admin/template/pp2016'>
+                      Edit Download Steps
+                    </Link>
+                  </Button>
+                </ButtonGroup>
               </div>
             </Card.Body>
           </Card>
@@ -52,27 +58,30 @@ function AllProducts() {
                 </Link>
               </Card.Title>
               <div>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/upload/product_keys/pp2019'
-                >
-                  <Button variant='dark'>Upload Product Keys</Button>
-                </Link>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/upload/unique_codes/pp2019'
-                >
-                  <Button variant='dark'>Upload Unique Codes</Button>
-                </Link>
-                <Link
-                  style={{ marginRight: "5px" }}
-                  to='/admin/template/pp2019'
-                >
-                  <Button variant='dark'>Update Success text</Button>
-                </Link>
-                <Link style={{ marginRight: "5px" }} to='/admin/email/pp2019'>
-                  <Button variant='dark'>Update Email text</Button>
-                </Link>
+                <ButtonGroup aria-label='Basic example'>
+                  <Button variant='primary'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/product_keys/pp2019'
+                    >
+                      Upload Product Keys
+                    </Link>
+                  </Button>
+
+                  <Button variant='success'>
+                    <Link
+                      class='text-light'
+                      to='/admin/upload/unique_codes/pp2019'
+                    >
+                      Upload Unique Codes
+                    </Link>
+                  </Button>
+                  <Button variant='secondary'>
+                    <Link class='text-light' to='/admin/template/pp2019'>
+                      Edit Download Steps
+                    </Link>
+                  </Button>
+                </ButtonGroup>
               </div>
             </Card.Body>
           </Card>

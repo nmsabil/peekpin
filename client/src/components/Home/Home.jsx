@@ -1,23 +1,34 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 import GetCustomerData from "../../api/GetCustomerData.jsx";
 import GetProductKeysData from "../../api/GetProductKeysData";
 import GetUniqueCodesData from "../../api/GetUniqueCodesData";
+import GetEmailTemplate from "../../api/GetEmailTemplate";
 
 function Home() {
   const navigate = useNavigate();
   // Office pp 2016 data
   const OPP16UC = GetUniqueCodesData("Unique code 2016");
   const OPP16PK = GetProductKeysData("Product key 2016");
+  // Office pp 2019 data
   const OPP19UC = GetUniqueCodesData("Unique code 2019");
   const OPP19PK = GetProductKeysData("Product key 2019");
+  // email templates
+  const emailTemplate = GetEmailTemplate();
   // customer data
   const customerData = GetCustomerData();
   // message
@@ -36,7 +47,8 @@ function Home() {
     enteredUniqueCode,
     refofCustomer,
     productKey,
-    year
+    year,
+    emailTemplate
   ) => {
     const data = {
       enteredEmail,
@@ -44,6 +56,7 @@ function Home() {
       enteredUniqueCode,
       productKey,
       year,
+      emailTemplate,
     };
     let status;
     await axios
@@ -76,18 +89,36 @@ function Home() {
       (o) => o.UniqueCode === e.target[1].value
     );
     if (foundInCustomerData) {
-      existingCustomer(foundInCustomerData, enteredEmail);
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === foundInCustomerData.Year) {
+          emailHtml = element.html;
+        }
+      });
+      existingCustomer(foundInCustomerData, emailHtml);
     } else if (foundunique2016) {
-      newCustomer(foundunique2016, "2016", "Pro Plus 2016", OPP16PK);
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === "Pro Plus 2016") {
+          emailHtml = element.html;
+        }
+      });
+      newCustomer(foundunique2016, "2016", "Pro Plus 2016", OPP16PK, emailHtml);
     } else if (foundunique2019) {
-      newCustomer(foundunique2019, "2019", "Pro Plus 2019", OPP19PK);
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === "Pro Plus 2019") {
+          emailHtml = element.html;
+        }
+      });
+      newCustomer(foundunique2019, "2019", "Pro Plus 2019", OPP19PK, emailHtml);
     } else {
       setMessage("no found");
     }
   };
 
   // -Update uc & pk status -Adds new CD -Navigates to PK page -Send emails
-  let newCustomer = async (foundUnique, year, name, pkData) => {
+  let newCustomer = async (foundUnique, year, name, pkData, template) => {
     let activeProductKey = pkData
       .slice()
       .reverse()
@@ -118,13 +149,15 @@ function Home() {
           uniqueCode: enteredUniqueCode,
         },
       });
+
       sendEmail(
         enteredEmail,
         enteredName,
         enteredUniqueCode,
         newCustomerRef,
         activeProductKey.ProductKey,
-        name
+        name,
+        template
       );
     } else {
       setMessage("maintenance");
@@ -132,7 +165,7 @@ function Home() {
   };
 
   // -Navigate to PK page -Update CD table -Send email
-  let existingCustomer = async (foundCustomer) => {
+  let existingCustomer = async (foundCustomer, template) => {
     navigate("/authorized", {
       state: {
         productKey: foundCustomer.ProductKey,
@@ -149,14 +182,14 @@ function Home() {
       UniqueCode: enteredUniqueCode,
       Time: new Date(),
     });
-
     sendEmail(
       enteredEmail,
       enteredName,
       enteredUniqueCode,
       refcd,
       foundCustomer.ProductKey,
-      foundCustomer.Year
+      foundCustomer.Year,
+      template
     );
   };
 

@@ -18,7 +18,7 @@ function Navigation() {
             <Nav.Link as={Link} to='/products'>
               Products
             </Nav.Link>
-            {/* <NavDropdown title='PK' id='navbarScrollingDropdown'>
+            <NavDropdown title='PK' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/product_keys/pp2016'>
                   PP 2016
@@ -103,7 +103,7 @@ function Navigation() {
                 </Nav.Link>
               </NavDropdown.Item>
               <NavDropdown.Item to='#action4'>PP 2021</NavDropdown.Item>
-            </NavDropdown> */}
+            </NavDropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

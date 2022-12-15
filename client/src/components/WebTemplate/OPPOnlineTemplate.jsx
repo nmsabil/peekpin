@@ -39,7 +39,7 @@ function OPP2016Template() {
             <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
           </a>
 
-          <h5 className='text-left'> Product key for Office {software}:</h5>
+          <h2 className='text-left'> Product key for Office {software}:</h2>
           <h3
             className='mb-0'
             onClick={() => navigator.clipboard.writeText(productKey)}
@@ -52,10 +52,9 @@ function OPP2016Template() {
             />
           </h3>
           <div className='instruct'>
-            <h5 className='mt-5 text-left'>Download Steps:</h5>
             <div className='text-left'>{value ? parse(value) : ""}</div>
 
-            <p className='mt-5'>
+            <p className='mt-5 text-left'>
               A copy of the product key and download intructions is successfully
               sent to {email}
               <br />

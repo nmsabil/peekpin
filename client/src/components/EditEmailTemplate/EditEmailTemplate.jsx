@@ -25,13 +25,13 @@ function EditEmailTemplate(props) {
       querySnapshot.forEach((doc) => {
         if (
           props.version === "pro plus 2016" &&
-          doc.data().software === "2016"
+          doc.data().software === "Pro Plus 2016"
         ) {
           setWhich(doc);
           setValue(doc.data().html);
         } else if (
           props.version === "pro plus 2019" &&
-          doc.data().software === "2019"
+          doc.data().software === "Pro Plus 2019"
         ) {
           setWhich(doc);
           setValue(doc.data().html);
@@ -191,7 +191,7 @@ td .download-steps h1{
                       <td align="left" style="padding:0;Margin:0;padding-bottom:15px"><h2 style="Margin:0;line-height:36px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:30px;font-style:normal;font-weight:bold;color:#333333;text-align:left"><strong>Office Pro Plus 2016</strong></h2></td>
                      </tr>
                      <tr style="border-collapse:collapse">
-                      <td align="left" bgcolor="#044767" style="padding:15px;Margin:0"><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#f4e8e8"><strong>Product key:</strong></h2><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#f4e8e8"><strong>F3PNT-V9WH4-BHYTC-XD3TJ-2G34X</strong></h2></td>
+                      <td align="left" bgcolor="#044767" style="padding:15px;Margin:0"><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>Product key:</strong></h2><h2 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:white"><strong>F3PNT-V9WH4-BHYTC-XD3TJ-2G34X</strong></h2></td>
                      </tr>
                      <tr style="border: 5px solid yellow;">
                       <td align="left" style="padding:0;Margin:0"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:30px;color:#333333;font-size:20px;text-align:left"><br></p>

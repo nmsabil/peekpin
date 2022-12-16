@@ -74,6 +74,60 @@ function Home() {
   let handleSubmit = (e) => {
     e.preventDefault();
 
+    //  { duplicate solution logic
+    let allUniqueCodesEntered;
+    let activeUniqueProductKeysfound = new Set();
+    let productKeysSameNumberUniqueCodesEntered = [];
+    // if the input contains (,) split to add to array
+    if (e.target[1].value.includes(",")) {
+      const arrayWitheach = e.target[1].value.replace(/\s/g, "").split(",");
+      allUniqueCodesEntered = arrayWitheach;
+
+      // reverse product key search to find active product keys and add to a set to have unique ones.
+      OPP16PK.slice()
+        .reverse()
+        .forEach((item) => {
+          if (item.Status === "Active") {
+            activeUniqueProductKeysfound.add(item.ProductKey);
+          }
+        });
+      // get number of unique PK's based on the number of unique codes entered.
+      allUniqueCodesEntered.forEach((item, i) => {
+        productKeysSameNumberUniqueCodesEntered.push(
+          [...activeUniqueProductKeysfound][i]
+        );
+      });
+      if (productKeysSameNumberUniqueCodesEntered) {
+        multipleUniqueCodes(
+          allUniqueCodesEntered,
+          productKeysSameNumberUniqueCodesEntered
+        );
+      } else {
+      }
+      console.log(
+        allUniqueCodesEntered,
+        productKeysSameNumberUniqueCodesEntered
+      );
+      // duplicate logic end }
+    }
+
+    const multipleUniqueCodes = (UC, UPK) => {
+      UC.forEach(async (element) => {
+        const refuc = doc(db, `Unique code 2016`, foundUnique.id);
+        await updateDoc(refuc, {
+          Status: false,
+        });
+      });
+    };
+
+    // find unique codes in all tables
+    let foundInCustomerData = customerData.find(
+      (o) => o.UniqueCode === e.target[1].value
+    );
+    let foundUCPP2016 = OPP16UC.find((o) => o.UniqueCode === e.target[1].value);
+    let foundUCPP2019 = OPP19UC.find((o) => o.UniqueCode === e.target[1].value);
+    let foundUCPP2021 = OPP21UC.find((o) => o.UniqueCode === e.target[1].value);
+
     // get correct email template
     const getEmailTemplate = (year) => {
       let emailHtml = "";
@@ -84,14 +138,6 @@ function Home() {
       });
       return emailHtml;
     };
-
-    // find unique codes in all tables
-    let foundInCustomerData = customerData.find(
-      (o) => o.UniqueCode === e.target[1].value
-    );
-    let foundUCPP2016 = OPP16UC.find((o) => o.UniqueCode === e.target[1].value);
-    let foundUCPP2019 = OPP19UC.find((o) => o.UniqueCode === e.target[1].value);
-    let foundUCPP2021 = OPP21UC.find((o) => o.UniqueCode === e.target[1].value);
 
     // Checks to find if the unique code is existing in CD table or New unique code
     if (foundInCustomerData) {
@@ -145,7 +191,6 @@ function Home() {
           template: template,
         },
       });
-
       sendEmail(
         enteredEmail,
         enteredName,

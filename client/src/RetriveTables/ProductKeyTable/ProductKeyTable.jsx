@@ -92,7 +92,7 @@ function ProductKeyTable(props) {
     const ref = doc(db, props.table, clickedID);
     await updateDoc(ref, {
       ProductKey: updated,
-      Status: updatedStatus == true ? true : false,
+      Status: updatedStatus === true ? true : false,
     });
     handleClose();
   };

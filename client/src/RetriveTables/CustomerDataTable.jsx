@@ -1,11 +1,10 @@
 import Table from "../components/Table/Table";
 import GetCustomerData from "../api/GetCustomerData.jsx";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import axios from "axios";
-import GetEmailTemplate from "../api/GetEmailTemplate";
 
 function CustomerDataTable() {
   const customerData = GetCustomerData();
@@ -14,6 +13,7 @@ function CustomerDataTable() {
   const [updated, setUpdated] = useState("");
   const [clickedID, setClickedID] = useState("");
   const [clickedRow, setClickedRow] = useState("");
+  const [message, setMessage] = useState(false);
 
   const customerDataColumn = [
     {
@@ -116,6 +116,10 @@ function CustomerDataTable() {
       .then((res) => {
         if (res.status === 200) {
           status = "Sent";
+          setMessage(true);
+          setTimeout(() => {
+            setMessage(false);
+          }, 3000);
         }
       })
       .catch((err) => {
@@ -156,9 +160,17 @@ function CustomerDataTable() {
   const handleClose = () => setShow(false);
   return (
     <>
-      <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>
-        Customers data
-      </h1>
+      <div className='title-add d-flex flex-column mt-5'>
+        <h1 className='mt-5' style={{ fontSize: "1.5rem" }}>
+          Customers data
+        </h1>
+        {message ? (
+          <Alert variant='success'>Email resent successfully</Alert>
+        ) : (
+          ""
+        )}
+      </div>
+
       <Table
         data={customerData}
         columns={customerDataColumn}

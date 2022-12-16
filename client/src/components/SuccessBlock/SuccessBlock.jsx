@@ -16,7 +16,7 @@ function SuccessBlock(props) {
   return (
     <div className='template'>
       <div className='product-key px-5 py-5 text-dark rounded text-center'>
-        <a href=''>
+        <a href='softwarepin.com'>
           <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
         </a>
 

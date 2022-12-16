@@ -5,7 +5,8 @@ import SuccessBlock from "../SuccessBlock/SuccessBlock";
 
 function OPP2016Template() {
   const { state } = useLocation();
-  const { productKey, auth, software, email, uniqueCode, template } = state;
+  const { productKey, software, email, template } = state;
+  // const { productKey, auth, software, email, uniqueCode, template } = state;
 
   return (
     <div className='templateStyle d-flex justify-content-center align-items-center flex-direction-column flex-column '>

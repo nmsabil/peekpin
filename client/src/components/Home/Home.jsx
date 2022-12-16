@@ -1,16 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import logo from "../../images/logo-transperant.png";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
-import {
-  addDoc,
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-} from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "react-bootstrap";
@@ -78,47 +71,40 @@ function Home() {
     });
   };
 
-  // Checks to find if the unique code is existing in CD table or New unique code
   let handleSubmit = (e) => {
     e.preventDefault();
 
+    // get correct email template
+    const getEmailTemplate = (year) => {
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === year) {
+          emailHtml = element.html;
+        }
+      });
+      return emailHtml;
+    };
+
+    // find unique codes in all tables
     let foundInCustomerData = customerData.find(
       (o) => o.UniqueCode === e.target[1].value
     );
     let foundUCPP2016 = OPP16UC.find((o) => o.UniqueCode === e.target[1].value);
     let foundUCPP2019 = OPP19UC.find((o) => o.UniqueCode === e.target[1].value);
     let foundUCPP2021 = OPP21UC.find((o) => o.UniqueCode === e.target[1].value);
+
+    // Checks to find if the unique code is existing in CD table or New unique code
     if (foundInCustomerData) {
-      let emailHtml = "";
-      emailTemplate.forEach((element) => {
-        if (element.software === foundInCustomerData.Year) {
-          emailHtml = element.html;
-        }
-      });
+      let emailHtml = getEmailTemplate(foundInCustomerData.Year);
       existingCustomer(foundInCustomerData, emailHtml);
     } else if (foundUCPP2016) {
-      let emailHtml = "";
-      emailTemplate.forEach((element) => {
-        if (element.software === "Pro Plus 2016") {
-          emailHtml = element.html;
-        }
-      });
+      let emailHtml = getEmailTemplate("Pro Plus 2016");
       newCustomer(foundUCPP2016, "2016", "Pro Plus 2016", OPP16PK, emailHtml);
     } else if (foundUCPP2019) {
-      let emailHtml = "";
-      emailTemplate.forEach((element) => {
-        if (element.software === "Pro Plus 2019") {
-          emailHtml = element.html;
-        }
-      });
+      let emailHtml = getEmailTemplate("Pro Plus 2019");
       newCustomer(foundUCPP2019, "2019", "Pro Plus 2019", OPP19PK, emailHtml);
     } else if (foundUCPP2021) {
-      let emailHtml = "";
-      emailTemplate.forEach((element) => {
-        if (element.software === "Pro Plus 2021") {
-          emailHtml = element.html;
-        }
-      });
+      let emailHtml = getEmailTemplate("Pro Plus 2021");
       newCustomer(foundUCPP2021, "2021", "Pro Plus 2021", OPP21PK, emailHtml);
     } else {
       setMessage("no found");

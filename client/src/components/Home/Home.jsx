@@ -74,10 +74,25 @@ function Home() {
   let handleSubmit = (e) => {
     e.preventDefault();
 
+    const multipleUniqueCodes = (UCEntered, UPK, FoundInTable) => {
+      console.log(UCEntered, UPK, FoundInTable);
+      // set unique codes inactive
+      // FoundInTable.forEach(async (element) => {
+      //   const refuc = doc(db, `Unique code 2016`, element[0].id);
+      //   await updateDoc(refuc, {
+      //     Status: false,
+      //   });
+      // });
+    };
+
     //  { duplicate solution logic
     let allUniqueCodesEntered;
     let activeUniqueProductKeysfound = new Set();
     let productKeysSameNumberUniqueCodesEntered = [];
+    let uniqueCodesFoundInTable = [];
+
+    let arrayOfKeysObject = [];
+
     // if the input contains (,) split to add to array
     if (e.target[1].value.includes(",")) {
       const arrayWitheach = e.target[1].value.replace(/\s/g, "").split(",");
@@ -91,34 +106,37 @@ function Home() {
             activeUniqueProductKeysfound.add(item.ProductKey);
           }
         });
+      OPP16PK.slice()
+        .reverse()
+        .forEach((item, i) => {
+          if ([...activeUniqueProductKeysfound][i] === item.ProductKey) {
+            arrayOfKeysObject.push(item);
+          }
+        });
+      console.log(arrayOfKeysObject);
+
       // get number of unique PK's based on the number of unique codes entered.
-      allUniqueCodesEntered.forEach((item, i) => {
-        productKeysSameNumberUniqueCodesEntered.push(
-          [...activeUniqueProductKeysfound][i]
-        );
-      });
-      if (productKeysSameNumberUniqueCodesEntered) {
+      // allUniqueCodesEntered.forEach((item, i) => {
+      //   productKeysSameNumberUniqueCodesEntered.push(
+      //     [...activeUniqueProductKeysfound][i]
+      //   );
+      //   // push found unique codes in array
+      //   uniqueCodesFoundInTable.push(
+      //     OPP16UC.filter((o) => o.UniqueCode === item)
+      //   );
+      // });
+
+      if (productKeysSameNumberUniqueCodesEntered && uniqueCodesFoundInTable) {
         multipleUniqueCodes(
           allUniqueCodesEntered,
-          productKeysSameNumberUniqueCodesEntered
+          productKeysSameNumberUniqueCodesEntered,
+          uniqueCodesFoundInTable
         );
       } else {
       }
-      console.log(
-        allUniqueCodesEntered,
-        productKeysSameNumberUniqueCodesEntered
-      );
+
       // duplicate logic end }
     }
-
-    const multipleUniqueCodes = (UC, UPK) => {
-      UC.forEach(async (element) => {
-        const refuc = doc(db, `Unique code 2016`, foundUnique.id);
-        await updateDoc(refuc, {
-          Status: false,
-        });
-      });
-    };
 
     // find unique codes in all tables
     let foundInCustomerData = customerData.find(

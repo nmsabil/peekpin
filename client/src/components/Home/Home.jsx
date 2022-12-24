@@ -77,62 +77,76 @@ function Home() {
     const multipleUniqueCodes = (UCEntered, UPK, FoundInTable) => {
       console.log(UCEntered, UPK, FoundInTable);
       // set unique codes inactive
-      // FoundInTable.forEach(async (element) => {
-      //   const refuc = doc(db, `Unique code 2016`, element[0].id);
-      //   await updateDoc(refuc, {
-      //     Status: false,
-      //   });
-      // });
+      FoundInTable.forEach(async (element, i) => {
+        const refuc = doc(db, `Unique code 2016`, element[0].id);
+        await updateDoc(refuc, {
+          Status: false,
+        });
+        await addDoc(collection(db, "Customer data"), {
+          Email: enteredEmail,
+          Name: enteredName,
+          ProductKey: UPK[i].ProductKey,
+          Time: new Date(),
+          Sent: "Sent",
+          UniqueCode: element[0].UniqueCode,
+          Year: "Pro Plus 2016",
+        });
+      });
+
+      // set product codes inactive
+      UPK.forEach(async (element) => {
+        const refpk = doc(db, `Product key 2016`, element.id);
+        await updateDoc(refpk, {
+          Status: false,
+        });
+      });
     };
 
-    //  { duplicate solution logic
-    let allUniqueCodesEntered;
-    let activeUniqueProductKeysfound = new Set();
-    let productKeysSameNumberUniqueCodesEntered = [];
-    let uniqueCodesFoundInTable = [];
-
-    let arrayOfKeysObject = [];
-
-    // if the input contains (,) split to add to array
+    //  duplicate solution logic
+    // if the input contains (,)
     if (e.target[1].value.includes(",")) {
-      const arrayWitheach = e.target[1].value.replace(/\s/g, "").split(",");
-      allUniqueCodesEntered = arrayWitheach;
+      // array of unique codes entered
+      let allUniqueCodesEntered = e.target[1].value
+        .replace(/\s/g, "")
+        .split(",");
 
-      // reverse product key search to find active product keys and add to a set to have unique ones.
+      // Fnd unique codes entered in talle
+      let uniqueCodesFoundInTable = [];
+      allUniqueCodesEntered.forEach((item, i) => {
+        uniqueCodesFoundInTable.push(
+          OPP16UC.filter((o) => o.UniqueCode === item)
+        );
+      });
+
+      // Get all Active keys
+      let activeProductKeysfound = [];
       OPP16PK.slice()
         .reverse()
         .forEach((item) => {
           if (item.Status === "Active") {
-            activeUniqueProductKeysfound.add(item.ProductKey);
+            activeProductKeysfound.push(item);
           }
         });
-      OPP16PK.slice()
-        .reverse()
-        .forEach((item, i) => {
-          if ([...activeUniqueProductKeysfound][i] === item.ProductKey) {
-            arrayOfKeysObject.push(item);
-          }
-        });
-      console.log(arrayOfKeysObject);
 
-      // get number of unique PK's based on the number of unique codes entered.
-      // allUniqueCodesEntered.forEach((item, i) => {
-      //   productKeysSameNumberUniqueCodesEntered.push(
-      //     [...activeUniqueProductKeysfound][i]
-      //   );
-      //   // push found unique codes in array
-      //   uniqueCodesFoundInTable.push(
-      //     OPP16UC.filter((o) => o.UniqueCode === item)
-      //   );
-      // });
+      // get same number of unique product keys as unique codes entered
+      let uniquePKarrayOfKeysObject = [];
+      uniquePKarrayOfKeysObject = activeProductKeysfound.filter(function ({
+        ProductKey,
+      }) {
+        var key = `${ProductKey}`;
+        return !this.has(key) && this.add(key);
+      },
+      new Set());
 
-      if (productKeysSameNumberUniqueCodesEntered && uniqueCodesFoundInTable) {
+      // if same number of unique product keys are found as unique codes entered.
+      if (uniquePKarrayOfKeysObject.length >= uniqueCodesFoundInTable.length) {
         multipleUniqueCodes(
           allUniqueCodesEntered,
-          productKeysSameNumberUniqueCodesEntered,
+          uniquePKarrayOfKeysObject.slice(0, allUniqueCodesEntered.length),
           uniqueCodesFoundInTable
         );
       } else {
+        console.log("not enough unique keys");
       }
 
       // duplicate logic end }

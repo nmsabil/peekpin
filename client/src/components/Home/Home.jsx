@@ -74,6 +74,16 @@ function Home() {
   let handleSubmit = (e) => {
     e.preventDefault();
 
+    // get correct email template
+    const getEmailTemplate = (year) => {
+      let emailHtml = "";
+      emailTemplate.forEach((element) => {
+        if (element.software === year) {
+          emailHtml = element.html;
+        }
+      });
+      return emailHtml;
+    };
     //  duplicate solution logic
     // if the input contains (,)
     if (e.target[1].value.includes(",")) {
@@ -82,7 +92,7 @@ function Home() {
         .replace(/\s/g, "")
         .split(",");
 
-      // Find unique codes entered in table and are active
+      // Find unique codes entered in table and are active or already used
       let foundCustomer = [];
       allUniqueCodesEntered.forEach((item, i) => {
         foundCustomer.push(customerData.find((o) => o.UniqueCode === item));
@@ -106,16 +116,6 @@ function Home() {
         );
       });
 
-      // get correct email template
-      const getEmailTemplate = (year) => {
-        let emailHtml = "";
-        emailTemplate.forEach((element) => {
-          if (element.software === year) {
-            emailHtml = element.html;
-          }
-        });
-        return emailHtml;
-      };
       if (foundCustomer[0]) {
         let emailHtml = getEmailTemplate(foundCustomer[0].Year);
         existingCustomerMultiple(foundCustomer, emailHtml);
@@ -147,7 +147,7 @@ function Home() {
           OPP21PK
         );
       } else {
-        setMessage("no found");
+        setMessage("Unique code not found");
       }
 
       // duplicate logic end }
@@ -165,18 +165,6 @@ function Home() {
       let foundUCPP2021 = OPP21UC.find(
         (o) => o.UniqueCode === e.target[1].value
       );
-
-      // get correct email template
-      const getEmailTemplate = (year) => {
-        let emailHtml = "";
-        emailTemplate.forEach((element) => {
-          if (element.software === year) {
-            emailHtml = element.html;
-          }
-        });
-        return emailHtml;
-      };
-
       // Checks to find if the unique code is existing in CD table or New unique code
       if (foundInCustomerData) {
         let emailHtml = getEmailTemplate(foundInCustomerData.Year);
@@ -191,11 +179,9 @@ function Home() {
         let emailHtml = getEmailTemplate("Pro Plus 2021");
         newCustomer(foundUCPP2021, "2021", "Pro Plus 2021", OPP21PK, emailHtml);
       } else {
-        setMessage("no found");
+        setMessage("Unique code not found");
       }
     }
-
-    // find unique codes in all tables
   };
 
   let newCustomerMultipleUC = (
@@ -239,7 +225,9 @@ function Home() {
         emailHtml
       );
     } else {
-      console.log("not enough unique keys");
+      setMessage(
+        `Not enough stock for to fulfill all unique codes at the moment, only ${uniquePKarrayOfKeysObject.length} available in the system `
+      );
     }
   };
 
@@ -264,6 +252,7 @@ function Home() {
         Sent: "Sent",
         UniqueCode: element[0].UniqueCode,
         Year: `Pro Plus ${year}`,
+        template: etemplate,
       });
     });
 
@@ -383,6 +372,7 @@ function Home() {
 
   let existingCustomerMultiple = async (foundCustomer, template) => {
     let allPks = "";
+    console.log(allPks);
     foundCustomer.forEach(async (element) => {
       allPks += element.ProductKey + ", ";
       const refcd = doc(db, "Customer data", element.id);

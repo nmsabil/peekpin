@@ -71,6 +71,7 @@ function Home() {
     });
   };
 
+  // call a correct function based on if a customer is new or old and which unique code is entered.
   let handleSubmit = (e) => {
     e.preventDefault();
 
@@ -184,6 +185,7 @@ function Home() {
     }
   };
 
+  // new customer with multiple unique codes entered separated by a comma
   let newCustomerMultipleUC = (
     allUniqueCodesEntered,
     uniqueCodesFoundInTableAndActive,
@@ -231,6 +233,7 @@ function Home() {
     }
   };
 
+  // multiple unique codes logic to update db and send email
   const multipleUniqueCodes = (
     UCEntered,
     UPK,
@@ -266,8 +269,6 @@ function Home() {
       stringPK += element.ProductKey.replaceAll(/\s/g, "") + ", ";
     });
 
-    // get correct email template
-
     setTimeout(() => {
       navigate("/authorized", {
         state: {
@@ -301,6 +302,7 @@ function Home() {
       .slice()
       .reverse()
       .find((obj) => obj.Status === "Active");
+    // if active product key is available and email is entered first time in the system
     if (activeProductKey && !foundInCustomerEmail) {
       const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
       await updateDoc(refuc, {
@@ -338,10 +340,11 @@ function Home() {
         name,
         template
       );
+      // if no active product key show message
     } else if (!activeProductKey) {
       setMessage("maintenance");
+      // if product keys are available and email has been used before, send unique.
     } else {
-      console.log("there is PK but same customer");
       let allEntriesWithEnteredEmail = customerData.filter(
         (e) => e.Email === enteredEmail
       );

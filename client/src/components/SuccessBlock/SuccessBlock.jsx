@@ -20,7 +20,9 @@ function SuccessBlock(props) {
           <img src={logo} alt='Displaypin logo' className='logo mb-5 w-50' />
         </a>
 
-        <h2 className='text-left'> Product key for Office {props.software}:</h2>
+        <h2 className='text-left'>
+          Product {props.multiple ? "keys" : "key"} for Office {props.software}:
+        </h2>
         <h3
           className='mb-0'
           onClick={() => navigator.clipboard.writeText(props.productKey)}

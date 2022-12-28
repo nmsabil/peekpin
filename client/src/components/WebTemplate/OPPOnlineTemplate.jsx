@@ -5,7 +5,7 @@ import SuccessBlock from "../SuccessBlock/SuccessBlock";
 
 function OPP2016Template() {
   const { state } = useLocation();
-  const { productKey, software, email, template } = state;
+  const { productKey, software, email, template, multiple } = state;
   // const { productKey, auth, software, email, uniqueCode, template } = state;
 
   return (
@@ -15,6 +15,7 @@ function OPP2016Template() {
         productKey={productKey}
         email={email}
         value={template}
+        multiple={multiple}
       />
     </div>
   );

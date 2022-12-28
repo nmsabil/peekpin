@@ -294,11 +294,14 @@ function Home() {
 
   // -Update uc & pk status -Adds new CD -Navigates to PK page -Send emails
   let newCustomer = async (foundUnique, year, name, pkData, template) => {
+    let foundInCustomerEmail = customerData.find(
+      (o) => o.Email === enteredEmail
+    );
     let activeProductKey = pkData
       .slice()
       .reverse()
       .find((obj) => obj.Status === "Active");
-    if (activeProductKey) {
+    if (activeProductKey && !foundInCustomerEmail) {
       const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
       await updateDoc(refuc, {
         Status: false,
@@ -335,8 +338,64 @@ function Home() {
         name,
         template
       );
-    } else {
+    } else if (!activeProductKey) {
       setMessage("maintenance");
+    } else {
+      console.log("there is PK but same customer");
+      let allEntriesWithEnteredEmail = customerData.filter(
+        (e) => e.Email === enteredEmail
+      );
+      let allEntries = allEntriesWithEnteredEmail.map((entry) => entry);
+      let AllactivePK = pkData
+        .slice()
+        .reverse()
+        .filter((obj) => obj.Status === "Active");
+      let neverSentBefore;
+      allEntries.forEach((pk) => {
+        if (AllactivePK.find((element) => element.ProductKey === pk)) {
+          setMessage(
+            "Not enough stock for to fulfill all unique codes at the moment"
+          );
+        } else {
+          neverSentBefore = AllactivePK.find((obj) => obj.Status === "Active");
+        }
+      });
+      const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
+      await updateDoc(refuc, {
+        Status: false,
+      });
+      const refpk = doc(db, `Product key ${year}`, neverSentBefore.id);
+      await updateDoc(refpk, {
+        Status: false,
+      });
+      let newCustomerRef = await addDoc(collection(db, "Customer data"), {
+        Email: enteredEmail,
+        Name: enteredName,
+        ProductKey: neverSentBefore.ProductKey,
+        Time: new Date(),
+        UniqueCode: enteredUniqueCode,
+        Year: name,
+        template: template,
+      });
+      navigate("/authorized", {
+        state: {
+          productKey: neverSentBefore.ProductKey,
+          auth: true,
+          software: name,
+          email: enteredEmail,
+          uniqueCode: enteredUniqueCode,
+          template: template,
+        },
+      });
+      sendEmail(
+        enteredEmail,
+        enteredName,
+        enteredUniqueCode,
+        newCustomerRef,
+        neverSentBefore.ProductKey,
+        name,
+        template
+      );
     }
   };
 

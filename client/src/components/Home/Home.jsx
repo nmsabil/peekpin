@@ -272,7 +272,7 @@ function Home() {
     setTimeout(() => {
       navigate("/authorized", {
         state: {
-          productKey: stringPK,
+          productKey: stringPK.slice(0, -2),
           auth: true,
           software: `Pro Plus ${year}`,
           email: enteredEmail,
@@ -286,7 +286,7 @@ function Home() {
         enteredName,
         enteredUniqueCode,
         "",
-        stringPK,
+        stringPK.slice(0, -2),
         `Pro Plus ${year}`,
         etemplate
       );
@@ -448,7 +448,6 @@ function Home() {
 
   let existingCustomerMultiple = async (foundCustomer, template) => {
     let allPks = "";
-    console.log(allPks);
     foundCustomer.forEach(async (element) => {
       allPks += element.ProductKey + ", ";
       const refcd = doc(db, "Customer data", element.id);
@@ -460,7 +459,7 @@ function Home() {
     });
     navigate("/authorized", {
       state: {
-        productKey: allPks,
+        productKey: allPks.slice(0, -2),
         auth: true,
         software: foundCustomer[0].Year,
         email: enteredEmail,
@@ -474,7 +473,7 @@ function Home() {
       enteredName,
       enteredUniqueCode,
       "",
-      allPks,
+      allPks.slice(0, -2),
       foundCustomer[0].Year,
       template
     );

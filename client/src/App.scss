@@ -1,10 +1,10 @@
 @import "~bootstrap/scss/bootstrap";
-@import "./components/Home/Home.scss";
+@import "./components/Home/home.scss";
 @import "./components/AdminLogin/AdminLogin.scss";
 @import "./components/Table/Table.scss";
 @import "./components/SuccessBlock//SuccessBlock.scss";
 @import "./components/AllProducts/AllProducts.scss";
-@import "react-quill/dist/quill.snow.css";
+@import "~react-quill/dist/quill.snow.css";
 .App {
   background-color: #d7d3d3;
   height: 100%;

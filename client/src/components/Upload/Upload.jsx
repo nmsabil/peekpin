@@ -11,6 +11,7 @@ function Upload(props) {
   const navigate = useNavigate();
   const [array, setArray] = useState([]);
   const [message, setMessage] = useState("");
+  const [textArea, setTextArea] = useState("");
 
   const UploadProductKeyManually = async (which, url) => {
     let arrayBatch = [];
@@ -48,7 +49,6 @@ function Upload(props) {
     }
     const batch = writeBatch(db);
     arrayBatch.forEach((item) => {
-      // Creates a DocRef with random ID
       const docRef = doc(collection(db, which));
       batch.set(docRef, item);
     });
@@ -109,13 +109,17 @@ function Upload(props) {
   // read file as text and pass to a funtion that converts to an array
   const formHandler = async (e) => {
     e.preventDefault();
-    const file = e.target["fileUploaded"].files[0];
-    const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const textData = XLSX.utils.sheet_to_txt(worksheet);
-
-    setArray(textData.split("\n"));
+    if (e.target["fileUploaded"].files[0]) {
+      const file = e.target["fileUploaded"].files[0];
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const textData = XLSX.utils.sheet_to_txt(worksheet);
+      setArray(textData.split("\n"));
+      console.log(textData.split("\n"));
+    } else {
+      setArray(textArea.split("\n"));
+    }
   };
 
   useEffect(() => {
@@ -129,13 +133,26 @@ function Upload(props) {
       </h1>
       {message ? <Alert variant='success'>{message}</Alert> : ""}
       <Form id='upload-form' onSubmit={formHandler} className='form'>
+        <p>Upload via excel file or enter 1 per line</p>
         <Form.Group className='mb-3'>
           <Form.Control
             name={"fileUploaded"}
-            required
             type={"file"}
             accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
             placeholder='Upload Excel File'
+          />
+        </Form.Group>
+        <Form.Group className='mb-3'>
+          <Form.Control
+            name={"textarea"}
+            type='text'
+            as={"textarea"}
+            placeholder='1 per line'
+            rows='5'
+            value={textArea}
+            onChange={(e) => {
+              setTextArea(e.target.value);
+            }}
           />
         </Form.Group>
         <Button variant='primary w-100' type='submit'>

@@ -134,7 +134,7 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP16,
-          "Pro Plus 2016",
+          "2016",
           emailHtml,
           OPP16PK
         );
@@ -143,7 +143,7 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP19,
-          "Pro Plus 2019",
+          "2019",
           emailHtml,
           OPP19PK
         );
@@ -152,7 +152,7 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP21,
-          "Pro Plus 2021",
+          "2021",
           emailHtml,
           OPP21PK
         );

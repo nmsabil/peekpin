@@ -237,7 +237,6 @@ function Home() {
       return !this.has(key) && this.add(key);
     },
     new Set());
-    console.log(uniquePKarrayOfKeysObject);
     // if same number of unique product keys are found as unique codes entered.
     if (
       uniquePKarrayOfKeysObject.length >=

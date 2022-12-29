@@ -130,7 +130,6 @@ function Upload(props) {
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const textData = XLSX.utils.sheet_to_txt(worksheet);
       setArray(textData.split("\n"));
-      console.log(textData.split("\n"));
     } else {
       setArray(textArea.split("\n"));
     }

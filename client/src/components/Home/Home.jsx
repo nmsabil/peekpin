@@ -353,52 +353,66 @@ function Home() {
         .slice()
         .reverse()
         .filter((obj) => obj.Status === "Active");
-      let neverSentBefore;
-      allEntries.forEach((pk) => {
-        if (AllactivePK.find((element) => element.ProductKey === pk)) {
-          setMessage(
-            "Not enough stock for to fulfill all unique codes at the moment"
-          );
-        } else {
-          neverSentBefore = AllactivePK.find((obj) => obj.Status === "Active");
-        }
+
+      const compareName = (obj1, obj2) => {
+        return obj1.ProductKey === obj2.ProductKey;
+      };
+
+      let neverSentBefore = AllactivePK.filter((b) => {
+        let indexFound = allEntries.findIndex((a) => compareName(a, b));
+        return indexFound === -1;
       });
-      const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
-      await updateDoc(refuc, {
-        Status: false,
-      });
-      const refpk = doc(db, `Product key ${year}`, neverSentBefore.id);
-      await updateDoc(refpk, {
-        Status: false,
-      });
-      let newCustomerRef = await addDoc(collection(db, "Customer data"), {
-        Email: enteredEmail,
-        Name: enteredName,
-        ProductKey: neverSentBefore.ProductKey,
-        Time: new Date(),
-        UniqueCode: enteredUniqueCode,
-        Year: name,
-        template: template,
-      });
-      navigate("/authorized", {
-        state: {
-          productKey: neverSentBefore.ProductKey,
-          auth: true,
-          software: name,
-          email: enteredEmail,
-          uniqueCode: enteredUniqueCode,
+
+      if (neverSentBefore.length === 0) {
+        setMessage(
+          "Not enough stock for to at the moment, please try again later"
+        );
+      } else {
+        neverSentBefore = neverSentBefore[0];
+      }
+
+      if (neverSentBefore) {
+        const refuc = doc(db, `Unique code ${year}`, foundUnique.id);
+        await updateDoc(refuc, {
+          Status: false,
+        });
+        const refpk = doc(db, `Product key ${year}`, neverSentBefore.id);
+        await updateDoc(refpk, {
+          Status: false,
+        });
+        let newCustomerRef = await addDoc(collection(db, "Customer data"), {
+          Email: enteredEmail,
+          Name: enteredName,
+          ProductKey: neverSentBefore.ProductKey,
+          Time: new Date(),
+          UniqueCode: enteredUniqueCode,
+          Year: name,
           template: template,
-        },
-      });
-      sendEmail(
-        enteredEmail,
-        enteredName,
-        enteredUniqueCode,
-        newCustomerRef,
-        neverSentBefore.ProductKey,
-        name,
-        template
-      );
+        });
+        navigate("/authorized", {
+          state: {
+            productKey: neverSentBefore.ProductKey,
+            auth: true,
+            software: name,
+            email: enteredEmail,
+            uniqueCode: enteredUniqueCode,
+            template: template,
+          },
+        });
+        sendEmail(
+          enteredEmail,
+          enteredName,
+          enteredUniqueCode,
+          newCustomerRef,
+          neverSentBefore.ProductKey,
+          name,
+          template
+        );
+      } else {
+        setMessage(
+          "Not enough stock for to fulfill all unique codes at the moment"
+        );
+      }
     }
   };
 

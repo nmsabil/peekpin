@@ -9,7 +9,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Alert, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { db } from "../../firebase";
 import SuccessBlock from "../SuccessBlock/SuccessBlock";
 import Loader from "../Loader/Loader";

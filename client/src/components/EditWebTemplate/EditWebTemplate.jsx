@@ -41,6 +41,12 @@ function EditWebTemplate(props) {
         ) {
           setWhich(doc);
           setValue(doc.data().html);
+        } else if (
+          props.version === "HB 2021" &&
+          doc.data().software === "HB 2021"
+        ) {
+          setWhich(doc);
+          setValue(doc.data().html);
         }
       });
     });

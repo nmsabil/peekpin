@@ -34,6 +34,11 @@ function Navigation() {
                   PP 2021
                 </Nav.Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/product_keys/hb2021'>
+                  HB 2021
+                </Nav.Link>
+              </NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown title='UC' id='navbarScrollingDropdown'>
@@ -50,6 +55,11 @@ function Navigation() {
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/unique_codes/pp2021'>
                   PP 2021
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/unique_codes/hb2021'>
+                  HB 2021
                 </Nav.Link>
               </NavDropdown.Item>
             </NavDropdown>
@@ -70,6 +80,11 @@ function Navigation() {
                   PP 2021
                 </Nav.Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/upload/product_keys/hb2021'>
+                  HB 2021
+                </Nav.Link>
+              </NavDropdown.Item>
             </NavDropdown>
 
             <NavDropdown title='Upload UC' id='navbarScrollingDropdown'>
@@ -88,6 +103,11 @@ function Navigation() {
                   PP 2021
                 </Nav.Link>
               </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/upload/unique_codes/hb2021'>
+                  HB 2021
+                </Nav.Link>
+              </NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title='Download Text' id='navbarScrollingDropdown'>
               <NavDropdown.Item>
@@ -103,6 +123,11 @@ function Navigation() {
               <NavDropdown.Item>
                 <Nav.Link as={Link} to='/admin/template/pp2021'>
                   PP 2021
+                </Nav.Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Nav.Link as={Link} to='/admin/template/hb2021'>
+                  HB 2021
                 </Nav.Link>
               </NavDropdown.Item>
             </NavDropdown>

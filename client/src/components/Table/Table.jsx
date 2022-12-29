@@ -48,6 +48,10 @@ function Table(props) {
       deleteSelectedHelper("Product key 2021");
     } else if (window.location.pathname === "/admin/unique_codes/pp2021") {
       deleteSelectedHelper("Unique code 2021");
+    } else if (window.location.pathname === "/admin/product_keys/hb2021") {
+      deleteSelectedHelper("Product key HB 2021");
+    } else if (window.location.pathname === "/admin/unique_codes/hb2021") {
+      deleteSelectedHelper("Unique code HB 2021");
     } else if (window.location.pathname === "/admin") {
       deleteSelectedHelper("Customer data");
     }

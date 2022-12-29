@@ -23,6 +23,9 @@ function Home() {
   // Office pp 2021 data
   const OPP21UC = GetUniqueCodesData("Unique code 2021");
   const OPP21PK = GetProductKeysData("Product key 2021");
+  // Office pp HB 2021 data
+  const OHB21UC = GetUniqueCodesData("Unique code HB 2021");
+  const OHB21PK = GetProductKeysData("Product key HB 2021");
   // email templates
   const emailTemplate = GetEmailTemplate();
   // customer data
@@ -116,6 +119,12 @@ function Home() {
           OPP21UC.filter((o) => o.UniqueCode === item && o.Status === "Active")
         );
       });
+      let uniqueCodeHB21 = [];
+      allUniqueCodesEntered.forEach((item, i) => {
+        uniqueCodeHB21.push(
+          OHB21UC.filter((o) => o.UniqueCode === item && o.Status === "Active")
+        );
+      });
 
       if (foundCustomer[0]) {
         let emailHtml = getEmailTemplate(foundCustomer[0].Year);
@@ -125,7 +134,7 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP16,
-          "2016",
+          "Pro Plus 2016",
           emailHtml,
           OPP16PK
         );
@@ -134,7 +143,7 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP19,
-          "2019",
+          "Pro Plus 2019",
           emailHtml,
           OPP19PK
         );
@@ -143,9 +152,18 @@ function Home() {
         newCustomerMultipleUC(
           allUniqueCodesEntered,
           uniqueCodePP21,
-          "2021",
+          "Pro Plus 2021",
           emailHtml,
           OPP21PK
+        );
+      } else if (uniqueCodeHB21[0].length) {
+        let emailHtml = getEmailTemplate("HB 2021");
+        newCustomerMultipleUC(
+          allUniqueCodesEntered,
+          uniqueCodeHB21,
+          "HB 2021",
+          emailHtml,
+          OHB21PK
         );
       } else {
         setMessage("Unique code not found");
@@ -166,6 +184,9 @@ function Home() {
       let foundUCPP2021 = OPP21UC.find(
         (o) => o.UniqueCode === e.target[1].value
       );
+      let foundUCHB2021 = OHB21UC.find(
+        (o) => o.UniqueCode === e.target[1].value
+      );
       // Checks to find if the unique code is existing in CD table or New unique code
       if (foundInCustomerData) {
         let emailHtml = getEmailTemplate(foundInCustomerData.Year);
@@ -179,6 +200,9 @@ function Home() {
       } else if (foundUCPP2021) {
         let emailHtml = getEmailTemplate("Pro Plus 2021");
         newCustomer(foundUCPP2021, "2021", "Pro Plus 2021", OPP21PK, emailHtml);
+      } else if (foundUCHB2021) {
+        let emailHtml = getEmailTemplate("HB 2021");
+        newCustomer(foundUCHB2021, "HB 2021", "HB 2021", OHB21PK, emailHtml);
       } else {
         setMessage("Unique code not found");
       }
@@ -213,7 +237,7 @@ function Home() {
       return !this.has(key) && this.add(key);
     },
     new Set());
-
+    console.log(uniquePKarrayOfKeysObject);
     // if same number of unique product keys are found as unique codes entered.
     if (
       uniquePKarrayOfKeysObject.length >=
@@ -254,7 +278,7 @@ function Home() {
         Time: new Date(),
         Sent: "Sent",
         UniqueCode: element[0].UniqueCode,
-        Year: `Pro Plus ${year}`,
+        Year: `${year}`,
         template: etemplate,
       });
     });
@@ -274,7 +298,7 @@ function Home() {
         state: {
           productKey: stringPK.slice(0, -2),
           auth: true,
-          software: `Pro Plus ${year}`,
+          software: `${year}`,
           email: enteredEmail,
           uniqueCode: enteredUniqueCode,
           template: etemplate,
@@ -287,7 +311,7 @@ function Home() {
         enteredUniqueCode,
         "",
         stringPK.slice(0, -2),
-        `Pro Plus ${year}`,
+        year,
         etemplate
       );
     }, 1500);

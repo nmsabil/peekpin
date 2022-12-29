@@ -103,6 +103,20 @@ function Upload(props) {
         "Unique code 2021",
         "/admin/unique_codes/pp2021"
       );
+    } else if (
+      window.location.pathname === "/admin/upload/product_keys/hb2021"
+    ) {
+      UploadProductKeyManually(
+        "Product key HB 2021",
+        "/admin/product_keys/hb2021"
+      );
+    } else if (
+      window.location.pathname === "/admin/upload/unique_codes/hb2021"
+    ) {
+      UploadUniqueCodeManually(
+        "Unique code HB 2021",
+        "/admin/unique_codes/hb2021"
+      );
     }
   };
 

@@ -38,6 +38,10 @@ function AddPK(props) {
       AddProductKeyManually("Product key 2021");
     } else if (window.location.pathname === "/admin/unique_codes/pp2021") {
       AddUniqueCodeManually("Unique code 2021");
+    } else if (window.location.pathname === "/admin/product_keys/hb2021") {
+      AddProductKeyManually("Product key HB 2021");
+    } else if (window.location.pathname === "/admin/unique_codes/hb2021") {
+      AddUniqueCodeManually("Unique code HB 2021");
     }
   };
 

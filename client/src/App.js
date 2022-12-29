@@ -88,6 +88,20 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path='/admin/product_keys/hb2021'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <ProductKeyTable
+                          key={"product_key_HB21"}
+                          table={"Product key HB 2021"}
+                          version={"HB"}
+                          title={"Office HB 2021 Product Keys"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
                   {/* product keys end */}
                   {/* unique codes start */}
                   <Route
@@ -132,6 +146,20 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path='/admin/unique_codes/hb2021'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <UniqueCodeTable
+                          key={"unique_code_HB_pp21"}
+                          table={"Unique code HB 2021"}
+                          version={"HB"}
+                          title={"Office HB 2021 Unique Codes"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
                   {/* unique codes end */}
                   {/* upload product keys starts */}
                   <Route
@@ -161,6 +189,15 @@ function App() {
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path='/admin/upload/product_keys/hb2021'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload Product Keys HB 2021' />
+                      </ProtectedRoute>
+                    }
+                  />
                   {/* upload product keys end */}
                   {/* upload unique codes start */}
                   <Route
@@ -187,6 +224,15 @@ function App() {
                       <ProtectedRoute>
                         <Navigation />
                         <Upload title='Upload Unique Codes PP 2021' />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/upload/unique_codes/hb2021'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <Upload title='Upload Unique Codes HB 2021' />
                       </ProtectedRoute>
                     }
                   />
@@ -224,6 +270,18 @@ function App() {
                         <EditWebTemplate
                           title={"Download steps for Pro Plus 2021"}
                           version={"Pro Plus 2021"}
+                        />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path='/admin/template/hb2021'
+                    element={
+                      <ProtectedRoute>
+                        <Navigation />
+                        <EditWebTemplate
+                          title={"Download steps for HB 2021"}
+                          version={"HB 2021"}
                         />
                       </ProtectedRoute>
                     }

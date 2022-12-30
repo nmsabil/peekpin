@@ -59,7 +59,7 @@ function Home() {
     };
     let status;
     await axios
-      .post("http://localhost:5000/api/sendemail", data)
+      .post(process.env.REACT_APP_EMAIL_SENT_URL, data)
       .then((res) => {
         if (res.status === 200) {
           status = "Sent";
